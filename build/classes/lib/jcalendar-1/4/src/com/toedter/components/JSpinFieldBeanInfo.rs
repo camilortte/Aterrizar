@@ -1,0 +1,1 @@
+com.toedter.components.JSpinFieldBeanInfo

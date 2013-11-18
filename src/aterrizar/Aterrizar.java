@@ -4,6 +4,8 @@
  */
 package aterrizar;
 
+import view.VentanaPrincipal;
+
 /**
  *
  * @author camilortte
@@ -15,5 +17,7 @@ public class Aterrizar {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        (new VentanaPrincipal()).setVisible(true);
+        
     }
 }

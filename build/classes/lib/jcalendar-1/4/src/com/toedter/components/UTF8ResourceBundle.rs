@@ -1,0 +1,2 @@
+com.toedter.components.UTF8ResourceBundle$UTF8PropertyResourceBundle
+com.toedter.components.UTF8ResourceBundle
