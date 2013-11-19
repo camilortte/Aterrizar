@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package model.persistencia;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -29,7 +29,7 @@ public class ConexionDB {
             Class.forName("org.sqlite.JDBC");
             String url = "jdbc:sqlite:DataBase.db";
             //conexion = DriverManager.getConnection(url);
-            conexion = DriverManager.getConnection("jdbc:sqlite:/home/camilortte/NetBeansProjects/Aterrizar/DataBase.db");
+            conexion = DriverManager.getConnection("jdbc:sqlite:DataBase2.db");
         }catch(Exception e){
             System.out.println(e);
             e.printStackTrace();
