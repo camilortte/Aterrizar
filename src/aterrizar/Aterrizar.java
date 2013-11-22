@@ -5,8 +5,10 @@
 package aterrizar;
 
 import model.consulta.Consulta;
+import model.persistencia.ConexionDB;
+import model.persistencia.DataBaseManager;
+import model.sesion.Autenticacion;
 import view.VentanaPrincipal;
-import view.Login;
 
 /**
  *
@@ -18,10 +20,14 @@ public class Aterrizar {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //Creamos tan solo una instancia de consulta
+        //Creamos tan solo una instancia de consulta        
+        ConexionDB con = new ConexionDB();
+        DataBaseManager.getInstance().setConexionDB(con);
         Consulta a=Consulta.getInstance();          
-       // (new VentanaPrincipal()).setVisible(true);
-         (new Login()).setVisible(true);
+        Autenticacion autenticacion=Autenticacion.getInstance();
+        autenticacion.iniciarSesion("1031144412", "{DES}WkY8Mz7y4vM=");
+        (new VentanaPrincipal()).setVisible(true);
+         //(new Login()).setVisible(true);
         
     }
 }

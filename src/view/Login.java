@@ -3,6 +3,11 @@ package view;
 import Cifrado.Seguridad;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import model.persistencia.ConexionDB;
+import model.persistencia.DataBaseManager;
+import model.sesion.Autenticacion;
+import model.usuario.Usuario;
 
 /**
  *
@@ -11,12 +16,13 @@ import java.util.logging.Logger;
 public class Login extends javax.swing.JFrame {
 
     private Seguridad seguridad;
+    private Autenticacion autenticacion;
     /**
      * Creates new form Login
      */
     public Login() {
         initComponents();
-        seguridad=new Seguridad();
+        seguridad=new Seguridad();    
     }
 
     /**
@@ -137,8 +143,13 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton_inciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_inciarSesionActionPerformed
+        autenticacion=Autenticacion.getInstance();
         try {
-            this.jTextField_usuario.setText(seguridad.encriptar(this.jPasswordField_pass.getText()));
+            boolean isAutenticated=autenticacion.iniciarSesion(this.jTextField_usuario.getText(), seguridad.encriptar(this.jPasswordField_pass.getText()));
+            if(isAutenticated){
+                JOptionPane.showMessageDialog(this, "Felicidades ud esta autenticado como "+autenticacion.getUsuario().getNombre(),"Titulo",JOptionPane.INFORMATION_MESSAGE);                
+                this.dispose();
+            }
         } catch (Exception ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -4,6 +4,9 @@
  */
 package model.sesion;
 
+import javax.swing.JOptionPane;
+import model.consulta.Consulta;
+import model.persistencia.DataBaseManager;
 import model.usuario.Usuario;
 
 /**
@@ -25,12 +28,25 @@ public class Autenticacion {
     
     private Usuario usuario;
     
-    public void iniciarSesion(String username,String password){
+    public boolean iniciarSesion(String username,String password){
         //realizamos la consulta para confirmar que el usuario existe
-        
-        //rellenamos los campos de usuario
-        
-        //Si existe entonces devolvemos True de lo contrario False
+        usuario=Consulta.getInstance().consultarUsuario(username, password);
+//        System.out.println("EL usuario es "+usuario.getNombre());
+        if(usuario==null){
+            return false;
+        }else{
+            return true;            
+        }        
     }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
+    
     
 }

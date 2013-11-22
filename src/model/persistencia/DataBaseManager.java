@@ -55,9 +55,9 @@ public class DataBaseManager {
                 }
                 consulta.add(fila);
             }
-            rs.close();
+            /*rs.close();
             stat.close();
-            conexion.close();
+            conexion.close();*/
             return consulta;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -67,6 +67,7 @@ public class DataBaseManager {
     
     public List<List<String>> consultar(String sql){
          try {
+            boolean consulta_bandera=false;
             ArrayList<String> fila=new ArrayList<String>();
             List<List<String>> consulta = new ArrayList<List<String>>();
             fila.clear();
@@ -76,19 +77,24 @@ public class DataBaseManager {
             while(rs.next()){
                 fila.clear();
                 for (int i = 0; i < meta.getColumnCount(); i++) {
+                    consulta_bandera=true;
                     fila.add((String)rs.getObject(i+1));
                 }
                 consulta.add(fila);
             }
-            
-            rs.close();
+            if(consulta_bandera!=false){
+                return consulta;
+            }else{
+                return null;
+            }
+            /*rs.close();
             stat.close();
-            conexion.close();
-            return consulta;
+            conexion.close();*/            
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-         return null;
+        return null;
+         
     }
     
 }

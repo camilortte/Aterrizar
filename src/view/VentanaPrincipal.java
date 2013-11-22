@@ -24,6 +24,7 @@ import javax.swing.table.DefaultTableModel;
 import model.consulta.Consulta;
 import model.consulta.Vuelo;
 import model.persistencia.ConexionDB;
+import model.persistencia.DataBaseManager;
 
 /**
  *
@@ -195,6 +196,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void rellenarCamposOrigenDestino(){
         try {
             ConexionDB con = new ConexionDB();
+            DataBaseManager.getInstance().setConexionDB(con);
             Connection conexion=con.getConexion();
             Statement stat = conexion.createStatement();
             ResultSet rs = stat.executeQuery("select CIUD_nombre from ciudad,origen where CIUD_id=ORIG_CIUD_id");

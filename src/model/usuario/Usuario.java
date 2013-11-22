@@ -12,12 +12,25 @@ public class Usuario {
     private String clave;
     private String nombre;
     private String apellido;
+    private String email;
 
     public Usuario(String nombre, String apellido, String clave) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.clave=clave;
     }
+     public Usuario() {
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+     
+    
 
     public String getClave() {
         return clave;
