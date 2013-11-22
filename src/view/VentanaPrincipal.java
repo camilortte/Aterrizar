@@ -17,9 +17,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import model.consulta.Consulta;
 import model.consulta.Vuelo;
@@ -40,6 +42,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         rellenarCamposOrigenDestino();
         consulta= Consulta.getInstance();
+        jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);  
     }
 
     /** This method is called from within the constructor to
@@ -214,17 +217,25 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
     
 private void jButton_consultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_consultarActionPerformed
+    
+    
     if(jComboBox_origen.getItemCount()<=0 || !jCalendar_calendario.isValid()){
         JOptionPane.showMessageDialog(this, "Debe ingresar los datos");
-    }else{
-        Calendar fecha= jCalendar_calendario.getCalendar();        
-        List<List<Vuelo>> vuelos=consulta.consultarVuelos(
+    }else {
+        Calendar fecha= jCalendar_calendario.getCalendar();      
+        Calendar nowDate = Calendar.getInstance();
+        
+        if(!fecha.before(nowDate)) {
+            System.out.println("La fecha esta bien");
+             List<List<Vuelo>> vuelos=consulta.consultarVuelos(
                             (String)this.jComboBox_origen.getSelectedItem(),
                             (String)this.jComboBox_destino.getSelectedItem(),
                             fecha);
         
-        actualizarTabla(vuelos);
-        
+            actualizarTabla(vuelos);
+        } else {
+            System.out.println("La fecha no esta bien");
+        }
     }
 }//GEN-LAST:event_jButton_consultarActionPerformed
 
