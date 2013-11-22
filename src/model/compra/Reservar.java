@@ -7,6 +7,10 @@ package model.compra;
 /** *
  * @author camilortte
  */
-public class Reservar {
+public class Reservar {//extends Comprar {
+    
+    public Reservar(){
+       // super(null, 12.2, null, null);
+    }
     
 }

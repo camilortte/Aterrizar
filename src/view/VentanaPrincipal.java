@@ -37,6 +37,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     /** Creates new form VentanaPrincipal */
     public VentanaPrincipal() {
         initComponents();
+        setLocationRelativeTo(null);
         rellenarCamposOrigenDestino();
         consulta= Consulta.getInstance();
     }

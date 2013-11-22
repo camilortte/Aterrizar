@@ -42,7 +42,9 @@ public class DataBaseManager {
     }
     
     public List<List<String>> consultar(String sql,String campos[]){
-         try {
+         
+        boolean consulta_bandera=false;
+        try {
             ArrayList<String> fila=new ArrayList<String>();
             List<List<String>> consulta = new ArrayList<List<String>>();
             fila.clear();
@@ -52,8 +54,13 @@ public class DataBaseManager {
                 fila.clear();
                 for(String campo : campos){
                     fila.add((String)rs.getObject(campo));
+                    consulta_bandera=true;
                 }
-                consulta.add(fila);
+                if(consulta_bandera!=false){
+                    return consulta;
+                }else{
+                    return null;
+                }
             }
             /*rs.close();
             stat.close();

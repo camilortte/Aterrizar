@@ -52,8 +52,7 @@ public class Consulta {
         return null;
     }
     
-     public Usuario consultarUsuario(String username, String password){
-        
+     public Usuario consultarUsuario(String username, String password){        
         Usuario usuario=null;
         dataBase=DataBaseManager.getInstance();
         ArrayList<Vuelo> resultado=new ArrayList<Vuelo>();
