@@ -14,9 +14,15 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.consulta.Consulta;
+import model.consulta.Vuelo;
 import model.persistencia.ConexionDB;
 
 /**
@@ -25,9 +31,13 @@ import model.persistencia.ConexionDB;
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
 
+    private Consulta consulta;
+    
     /** Creates new form VentanaPrincipal */
     public VentanaPrincipal() {
         initComponents();
+        rellenarCamposOrigenDestino();
+        consulta= Consulta.getInstance();
     }
 
     /** This method is called from within the constructor to
@@ -47,7 +57,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jComboBox_destino = new javax.swing.JComboBox();
         jComboBox_origen = new javax.swing.JComboBox();
         jButton_consultar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -70,13 +79,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -94,10 +96,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jCalendar_calendario, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton_consultar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 192, Short.MAX_VALUE)
-                                .addComponent(jButton1))
+                            .addComponent(jButton_consultar)
                             .addComponent(jComboBox_destino, 0, 347, Short.MAX_VALUE))))
                 .addGap(31, 31, 31))
         );
@@ -116,9 +115,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(jCalendar_calendario, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton_consultar)
-                    .addComponent(jButton1))
+                .addComponent(jButton_consultar)
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
@@ -195,7 +192,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void rellenarCamposOrigenDestino(){
         try {
             ConexionDB con = new ConexionDB();
             Connection conexion=con.getConexion();
@@ -211,13 +208,35 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         } catch (SQLException ex) {
             Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
-}//GEN-LAST:event_jButton1ActionPerformed
-
+    }
+    
 private void jButton_consultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_consultarActionPerformed
     if(jComboBox_origen.getItemCount()<=0 || !jCalendar_calendario.isValid()){
         JOptionPane.showMessageDialog(this, "Debe ingresar los datos");
+    }else{
+        Calendar fecha= jCalendar_calendario.getCalendar();        
+        List<List<Vuelo>> vuelos=consulta.consultarVuelos(
+                            (String)this.jComboBox_origen.getSelectedItem(),
+                            (String)this.jComboBox_destino.getSelectedItem(),
+                            fecha);
+        
+        actualizarTabla(vuelos);
+        
     }
 }//GEN-LAST:event_jButton_consultarActionPerformed
+
+//actualiza la tabla a partir de unos datos dados
+private void actualizarTabla(List<List<Vuelo>> items){
+    DefaultTableModel model = new DefaultTableModel();
+    model.setColumnIdentifiers(new String[]{"Origen ", "Destino", "Aerolinea", "Precio"});
+    
+    for(List<Vuelo> item: items){
+        for(Vuelo vuelo: item){
+               model.addRow(new String[]{vuelo.getOrigen(),vuelo.getDestino(),"",""});
+        }   
+    }    
+    
+}
 
     /**
      * @param args the command line arguments
@@ -255,7 +274,6 @@ private void jButton_consultarActionPerformed(java.awt.event.ActionEvent evt) {/
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton_consultar;
     private com.toedter.calendar.JCalendar jCalendar_calendario;
     private javax.swing.JComboBox jComboBox_destino;

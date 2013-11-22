@@ -4,6 +4,7 @@
  */
 package aterrizar;
 
+import model.consulta.Consulta;
 import view.VentanaPrincipal;
 
 /**
@@ -16,8 +17,10 @@ public class Aterrizar {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        //Creamos tan solo una instancia de consulta
+        Consulta a=Consulta.getInstance();          
         (new VentanaPrincipal()).setVisible(true);
         
     }
 }
+
