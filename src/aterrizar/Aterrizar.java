@@ -6,6 +6,7 @@ package aterrizar;
 
 import model.consulta.Consulta;
 import view.VentanaPrincipal;
+import view.Login;
 
 /**
  *
@@ -19,7 +20,8 @@ public class Aterrizar {
     public static void main(String[] args) {
         //Creamos tan solo una instancia de consulta
         Consulta a=Consulta.getInstance();          
-        (new VentanaPrincipal()).setVisible(true);
+       // (new VentanaPrincipal()).setVisible(true);
+         (new Login()).setVisible(true);
         
     }
 }
