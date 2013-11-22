@@ -226,7 +226,7 @@ private void jButton_consultarActionPerformed(java.awt.event.ActionEvent evt) {/
         Calendar nowDate = Calendar.getInstance();
         
         if(!fecha.before(nowDate)) {
-            System.out.println("La fecha esta bien");
+            
              List<List<Vuelo>> vuelos=consulta.consultarVuelos(
                             (String)this.jComboBox_origen.getSelectedItem(),
                             (String)this.jComboBox_destino.getSelectedItem(),
@@ -234,7 +234,7 @@ private void jButton_consultarActionPerformed(java.awt.event.ActionEvent evt) {/
         
             actualizarTabla(vuelos);
         } else {
-            System.out.println("La fecha no esta bien");
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una fecha mayor a la de hoy");
         }
     }
 }//GEN-LAST:event_jButton_consultarActionPerformed

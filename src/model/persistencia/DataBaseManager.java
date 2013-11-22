@@ -11,6 +11,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import model.usuario.Usuario;
 
 
 /**
@@ -102,6 +103,13 @@ public class DataBaseManager {
         }
         return null;
          
+    }
+    
+    public boolean insertar_usuairo(Usuario usuario){
+        /*String sql="insert into usuario values ('"+
+                +"1013636654"+','"{DES}WkY8Mz7y4vM="','"Camilo"','"+
+                +"Ramirez"','+"camilortte@hotmail.com"')";*/
+        return false;
     }
     
 }

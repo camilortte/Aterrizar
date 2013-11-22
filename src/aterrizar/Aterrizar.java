@@ -42,6 +42,7 @@ public class Aterrizar {
         Consulta a=Consulta.getInstance();          
         Autenticacion autenticacion=Autenticacion.getInstance();
         autenticacion.iniciarSesion("1031144412", "{DES}WkY8Mz7y4vM=");
+        autenticacion.iniciarSesion("1031144412", "{DES}WkY8Mz7y4vM=");
         (new VentanaPrincipal()).setVisible(true);
         //(new Login()).setVisible(true);
         
