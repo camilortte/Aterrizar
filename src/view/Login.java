@@ -23,7 +23,7 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         setLocationRelativeTo(null);
-        seguridad=new Seguridad();    
+        seguridad=Seguridad.getInstance();
     }
 
     /**

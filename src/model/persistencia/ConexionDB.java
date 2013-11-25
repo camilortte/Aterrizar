@@ -6,6 +6,7 @@ package model.persistencia;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 /**
@@ -24,7 +25,7 @@ public class ConexionDB {
         this.conexion = conexion;
     }
     
-    public ConexionDB(){
+    /*public ConexionDB(){
         try{
             Class.forName("org.sqlite.JDBC");
             String url = "jdbc:sqlite:DataBase.db";
@@ -32,6 +33,16 @@ public class ConexionDB {
             conexion = DriverManager.getConnection("jdbc:sqlite:DataBase2.db");
         }catch(Exception e){
             System.out.println(e);
+            e.printStackTrace();
+        }
+    }*/
+    
+     public ConexionDB() throws SQLException {
+        String url="jdbc:postgresql://localhost:5432/DataBase";
+        try {
+            Class.forName("org.postgresql.Driver");
+            conexion = DriverManager.getConnection(url, "postgres", "123456");
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

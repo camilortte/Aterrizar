@@ -69,7 +69,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                          <Component id="jComboBox_origen" pref="345" max="32767" attributes="0"/>
+                          <Component id="jComboBox_origen" pref="384" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -78,9 +78,13 @@
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jCalendar_calendario" pref="347" max="32767" attributes="1"/>
-                              <Component id="jButton_consultar" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jComboBox_destino" alignment="0" pref="347" max="32767" attributes="1"/>
+                              <Component id="jCalendar_calendario" pref="386" max="32767" attributes="1"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="jButton_consultar" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace pref="192" max="32767" attributes="0"/>
+                                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="jComboBox_destino" alignment="0" pref="386" max="32767" attributes="1"/>
                           </Group>
                       </Group>
                   </Group>
@@ -106,8 +110,11 @@
                       <Component id="jCalendar_calendario" min="-2" pref="181" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton_consultar" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="18" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jButton_consultar" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="21" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -152,6 +159,14 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_consultarActionPerformed"/>
           </Events>
         </Component>
+        <Component class="javax.swing.JButton" name="jButton1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Agregar vuelo"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="jPanel2">
@@ -176,7 +191,7 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="jScrollPane1" pref="310" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="307" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -215,12 +230,12 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="318" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="279" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="315" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="318" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>

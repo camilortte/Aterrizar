@@ -62,6 +62,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jComboBox_destino = new javax.swing.JComboBox();
         jComboBox_origen = new javax.swing.JComboBox();
         jButton_consultar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -84,6 +85,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Agregar vuelo");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -93,16 +101,19 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(27, 27, 27)
-                        .addComponent(jComboBox_origen, 0, 345, Short.MAX_VALUE))
+                        .addComponent(jComboBox_origen, 0, 384, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCalendar_calendario, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
-                            .addComponent(jButton_consultar)
-                            .addComponent(jComboBox_destino, 0, 347, Short.MAX_VALUE))))
+                            .addComponent(jCalendar_calendario, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButton_consultar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 192, Short.MAX_VALUE)
+                                .addComponent(jButton1))
+                            .addComponent(jComboBox_destino, 0, 386, Short.MAX_VALUE))))
                 .addGap(31, 31, 31))
         );
         jPanel1Layout.setVerticalGroup(
@@ -120,8 +131,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(jCalendar_calendario, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton_consultar)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton_consultar)
+                    .addComponent(jButton1))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Resultados"));
@@ -151,7 +164,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -161,11 +174,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 318, Short.MAX_VALUE)
+            .addGap(0, 279, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 315, Short.MAX_VALUE)
+            .addGap(0, 318, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -191,7 +204,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         pack();
@@ -208,9 +221,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 jComboBox_origen.addItem(rs.getString("CIUD_nombre"));
                 jComboBox_destino.addItem(rs.getString("CIUD_nombre"));
             }
-            rs.close();
+            /*rs.close();
             stat.close();
-            conexion.close();
+            conexion.close();*/
         } catch (SQLException ex) {
             Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -227,28 +240,59 @@ private void jButton_consultarActionPerformed(java.awt.event.ActionEvent evt) {/
         
         if(!fecha.before(nowDate)) {
             
-             List<List<Vuelo>> vuelos=consulta.consultarVuelos(
+             ArrayList<Vuelo> vuelos=consulta.consultarVuelos(
                             (String)this.jComboBox_origen.getSelectedItem(),
                             (String)this.jComboBox_destino.getSelectedItem(),
                             fecha);
-        
-            actualizarTabla(vuelos);
+             if (vuelos!=null){
+                actualizarTabla(vuelos);
+             }else{
+                 JOptionPane.showMessageDialog(this, "No se encontraron vuelos",
+                         "Erorr",JOptionPane.ERROR_MESSAGE);
+             }
         } else {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una fecha mayor a la de hoy");
         }
     }
 }//GEN-LAST:event_jButton_consultarActionPerformed
 
-//actualiza la tabla a partir de unos datos dados
-private void actualizarTabla(List<List<Vuelo>> items){
-    DefaultTableModel model = new DefaultTableModel();
-    model.setColumnIdentifiers(new String[]{"Origen ", "Destino", "Aerolinea", "Precio"});
+private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
     
-    for(List<Vuelo> item: items){
-        for(Vuelo vuelo: item){
-               model.addRow(new String[]{vuelo.getOrigen(),vuelo.getDestino(),"",""});
-        }   
+    (new AgregarVuelos()).setVisible(true);
+    
+    String origen=jComboBox_origen.getSelectedItem().toString();
+    String destino=jComboBox_destino.getSelectedItem().toString();
+    
+    if(origen.compareTo("Bogota")==0 || destino.compareTo("Bogota")==0){
+        //Estos vuelos se realizan todos los dias , uno en la manana y uno en la
+        //tarde
+    }else{
+        int suma=origen.length()+destino.length();
+        if(suma%2==0){
+            /*su suma es un numero par por lo tanto los vuelos se realizan los 
+             * dias   lunes , miercoles y domingos */
+        }else{
+            /*Su suma es impar los vuelos se realizan los martes jueves y sabados*/
+        }
+        
+        //si el vuelo es realizado el sabado o el domingo vale 10% mas 
+    }
+    
+    
+}//GEN-LAST:event_jButton1ActionPerformed
+
+//actualiza la tabla a partir de unos datos dados
+private void actualizarTabla(ArrayList<Vuelo> items){
+    DefaultTableModel model = new DefaultTableModel();
+    model.setColumnIdentifiers(new String[]{"Ecala ", "Aerolinea", "Precio"});
+    
+    for(Vuelo item: items){
+        //for(Vuelo vuelo: item){
+           model.addRow(new String[]{item.getEscala(),item.getAerolinea(),
+               String.valueOf(item.getPrecio())});
+        //}   
     }    
+    jTable1.setModel(model);
     
 }
 
@@ -288,6 +332,7 @@ private void actualizarTabla(List<List<Vuelo>> items){
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton_consultar;
     private com.toedter.calendar.JCalendar jCalendar_calendario;
     private javax.swing.JComboBox jComboBox_destino;

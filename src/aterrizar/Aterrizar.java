@@ -4,11 +4,15 @@
  */
 package aterrizar;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import model.compra.Factura;
 import model.consulta.Consulta;
+import model.consulta.Vuelo;
 import model.persistencia.ConexionDB;
 import model.persistencia.DataBaseManager;
 import model.sesion.Autenticacion;
+import view.AgregarVuelos;
 import view.Login;
 import view.VentanaPrincipal;
 
@@ -21,8 +25,17 @@ public class Aterrizar {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         //Creamos tan solo una instancia de consulta   
+        
+        Vuelo vuelo=new Vuelo("Hola", "Que",null, null,null,10.1);        
+        ArrayList<String> fechas=vuelo.getFechasPermitidas(2013,12, true);
+        
+        for(String fecha : fechas){
+            System.out.println(fecha);
+        }
+        
+        
         String datos[][]=new String[6][6];
     	datos[0][0]="1";
     	datos[0][1]="Java";
@@ -45,6 +58,7 @@ public class Aterrizar {
         autenticacion.iniciarSesion("1031144412", "{DES}WkY8Mz7y4vM=");
         (new VentanaPrincipal()).setVisible(true);
         //(new Login()).setVisible(true);
+        //(new AgregarVuelos()).setVisible(true);
         
     }
 }

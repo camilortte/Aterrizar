@@ -7,64 +7,12 @@ import model.usuario.Usuario;
 /**
  * @author camilortte
  */
-public class Comprar {
-    private Usuario usuario;
-    private double precio;
-    private Calendar fecha;
-    private String tipo_pago;
-    private Vuelo vuelo;
-
-    public Comprar(Usuario usuario, double precio, Calendar fecha, String tipo_pago, Vuelo vuelo) {
-        this.usuario = usuario;
-        this.precio = precio;
-        this.fecha = fecha;
-        this.tipo_pago = tipo_pago;
-        this.vuelo=vuelo;
-    }
-
-    public void realziarCompra(){
-        //Una insercion a la base de datos donde se realice a compra
+public class Comprar extends Reservar{
+    
+    public Comprar(Usuario usuario, double precio, Calendar fecha, String tipo_pago, Vuelo vuelo){
+        super(usuario, precio, fecha, tipo_pago, vuelo);
     }
     
-    public Vuelo getVuelo() {
-        return vuelo;
-    }
-
-    public void setVuelo(Vuelo vuelo) {
-        this.vuelo = vuelo;
-    }
-
-        
-    public Calendar getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Calendar fecha) {
-        this.fecha = fecha;
-    }
-
-    public double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(double precio) {
-        this.precio = precio;
-    }
-
-    public String getTipo_pago() {
-        return tipo_pago;
-    }
-
-    public void setTipo_pago(String tipo_pago) {
-        this.tipo_pago = tipo_pago;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }    
+    
     
 }

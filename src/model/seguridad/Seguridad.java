@@ -11,7 +11,19 @@ import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
 
 public class Seguridad {
+    
+    private static Seguridad instance=null;
+        
+    private Seguridad() {    }
 
+    public static synchronized Seguridad getInstance(){
+        if (instance==null){
+            instance=new  Seguridad();
+        }
+        return instance;
+    }
+    //----------------------------
+    
     private final static String keyBuffer = "56af65d2";
 
     public static byte[] encode(byte[] b) throws Exception {

@@ -13,12 +13,23 @@ public class Usuario {
     private String nombre;
     private String apellido;
     private String email;
+    private String cedula;
 
     public Usuario(String nombre, String apellido, String clave) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.clave=clave;
     }
+
+    public String getCedula() {
+        return cedula;
+    }
+
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
+    }
+    
+    
      public Usuario() {
     }
 

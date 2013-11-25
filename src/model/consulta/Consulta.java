@@ -5,7 +5,9 @@ package model.consulta;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import model.aerolinea.Aerolinea;
 import model.persistencia.DataBaseManager;
 import model.usuario.Usuario;
 
@@ -24,7 +26,7 @@ public class Consulta {
         return instance;
     }
       
-    public List<List<Vuelo>> consultarVuelos(String origen, String destino, Calendar fecha){
+    public ArrayList<Vuelo> consultarVuelos(String origen, String destino, Calendar fecha){
         //todo el codigo referente para consultar todos los vuelos
         
         /*realizar la consulta de todos los vuelos en todas la aerolineas que
@@ -35,21 +37,47 @@ public class Consulta {
          * 
          */
         dataBase=DataBaseManager.getInstance();
-         ArrayList<Vuelo> resultado=new ArrayList<Vuelo>();
-        resultado.clear();
-        //generamos la consulta SQL
-        String sql="SELECT * from origen,destino where ";
+        ArrayList<Vuelo> resultado=new ArrayList<Vuelo>();
+        resultado.clear();        
         
+        int year = fecha.get(Calendar.YEAR);
+        int month = fecha.get(Calendar.MONTH)+1;
+        int day = fecha.get(Calendar.DAY_OF_MONTH);
+        
+        
+        String fecha_s=String.valueOf(year)+"-"+
+                String.valueOf(month)+"-"+
+                String.valueOf(day);
+        
+        //generamos la consulta SQL
+        String sql="select esca_id, aerol_nombre, vuel_precio"+
+        " from vuelo, aerolinea, ruta, origen, destino, escala where "+
+        " vuel_ruta_id=ruta_id and"+
+        " ruta_orig_id=orig_id and"+
+        " ruta_dest_id=dest_id and"+
+        " ruta_esca_id=esca_id and"+
+        " vuel_aerol_id=aerol_id and"+
+        " orig_id=(select ciud_id from ciudad where ciud_nombre like ('"+origen+"')) and"+
+        " dest_id=(select ciud_id from ciudad where ciud_nombre like ('"+destino+"')) and"
+        +" vuel_fecha= '"+fecha_s+"'";
+        System.out.println(sql);
         //obtenemos una matriz
         List<List<String>> consulta=dataBase.consultar(sql);
-        String strOrigen, strDestino="";//..
-        for(List<String> item: consulta){  
-            //falta agregar los campos
-            strOrigen=item.get(0);
-            strDestino=item.get(1);
-            resultado.add(new Vuelo(strOrigen, strDestino, null, null, null));
-        }  
-        return null;
+        if(consulta!=null){
+            String escala="", aerolinea="", precio="";//..
+            for(List<String> item: consulta){  
+                //falta agregar los campos
+                escala=item.get(0);
+                aerolinea=item.get(1);
+                precio=item.get(2);                          
+                Date date=new Date(fecha.get(Calendar.YEAR),fecha.get(Calendar.MONTH)+1, fecha.get(Calendar.DAY_OF_MONTH));
+                resultado.add(new Vuelo(origen, destino,escala,date,aerolinea,Double.parseDouble(precio)));
+                System.out.println("Se agrega="+aerolinea);
+            }              
+            return resultado;
+        }else{
+            return null;
+        }
     }
     
      public Usuario consultarUsuario(String username, String password){        
