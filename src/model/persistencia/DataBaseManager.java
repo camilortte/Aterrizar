@@ -14,9 +14,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import model.consulta.Vuelo;
 import model.sesion.Autenticacion;
 import model.usuario.Usuario;
@@ -221,18 +223,78 @@ public class DataBaseManager {
                 Vuelo vuelo=new Vuelo();
                 //(String)rs.getObject(i+1);            
                 vuelo.setId(rs.getString("vuus_vuel_id"));
-                Date date=convertirStringEnDate(rs.getString("vuus_fecha"));
-                vuelo.setFecha(date);
+                vuelo.setFecha(rs.getString("vuus_fecha"));
                 vuelo.setHorario(rs.getString("vuus_hora"));
                 vuelo.setOrigen(getOrigen(vuelo.getId()));
                 vuelo.setDestino(getDestino(vuelo.getId()));
-                vuelos.add(vuelo);
+                
+                Calendar now = GregorianCalendar.getInstance();                          
+                Date mydate=convertirStringEnDate(vuelo.getFecha());                
+                SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+
+                // replace with your start date string
+                Date d = df.parse(vuelo.getHorario()); 
+                Calendar gc = new GregorianCalendar();
+                gc.setTime(d);
+                gc.add(Calendar.HOUR, 2);
+                gc.set(mydate.getYear(), mydate.getMonth(), mydate.getDay());
+                
+                
+                Date d2 = gc.getTime();
+                if(now.before(d)){
+                    //eliminar 
+                    JOptionPane.showMessageDialog(null, "Se eliminara la fecha tal");
+                    if(eliminarVueloReservado(Autenticacion.getInstance().getUsuario().getCedula(), 
+                            vuelo.getId())){
+                        JOptionPane.showMessageDialog(null, "Se ellimino");
+                    }
+                    
+                }else{
+                    vuelos.add(vuelo);
+                }
+                
+                
             }
             
             return vuelos;
         }catch(Exception e){
             return null;
         }
+    }
+    
+    private boolean eliminarVueloReservado(String cedula,String vuelo_id){
+        try {
+            String sql="delete from vuelo_usuario where " +
+                    "vuus_usua_cedula=? and " +
+                    "vuus_vuel_id=?";
+            
+            PreparedStatement stm=conexion.prepareStatement(sql);
+            stm.setString(1, cedula);
+            stm.setInt(Integer.parseInt(vuelo_id), 2);
+            stm.execute();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+    
+    public boolean actualizarCompra(String cedula, String id_vuelo){
+        try {
+            String sql=" update vuelo_usuario set vuus_is_reserva=true where "
+                    + " vuus_usua_cedula=? and "
+                    + " vuus_vuel_id=? ";
+            
+            PreparedStatement stm=conexion.prepareStatement(sql);
+            stm.setString(1, cedula);
+            stm.setInt(2, Integer.parseInt(id_vuelo));
+            stm.execute();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+       
     }
     
     private Date convertirStringEnDate(String fecha){

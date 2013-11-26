@@ -24,7 +24,6 @@ import model.persistencia.ConexionDB;
 import model.persistencia.DataBaseManager;
 
 /**
- *
  * @author camilortte
  */
 public class AgregarVuelos extends javax.swing.JFrame {
@@ -34,7 +33,8 @@ public class AgregarVuelos extends javax.swing.JFrame {
     /** Creates new form AgregarVuelos */
     public AgregarVuelos() {
         initComponents();
-        rellenarCamposOrigenDestino();
+        setLocationRelativeTo(null);
+        rellenarCamposOrigenDestino();        
     }
 
      public String getDiaSemana(Calendar fecha) {
@@ -100,8 +100,10 @@ public class AgregarVuelos extends javax.swing.JFrame {
         jLabel_costo = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jComboBox_horario = new javax.swing.JComboBox();
+        jToolBar1 = new javax.swing.JToolBar();
+        jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jComboBox_origen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,6 +135,11 @@ public class AgregarVuelos extends javax.swing.JFrame {
         jLabel5.setText("Aerolinea");
 
         jComboBox_aerolinea.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Avianca", "Satena", "EasyFly", "Delta", "Aires" }));
+        jComboBox_aerolinea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox_aerolineaActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Precio: ");
 
@@ -145,14 +152,28 @@ public class AgregarVuelos extends javax.swing.JFrame {
 
         jLabel7.setText("Hora");
 
+        jToolBar1.setRollover(true);
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/logout.png"))); // NOI18N
+        jButton1.setFocusable(false);
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton_consultarFechas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                    .addComponent(jButton_consultarFechas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -160,31 +181,34 @@ public class AgregarVuelos extends javax.swing.JFrame {
                             .addComponent(jLabel3))
                         .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox_destino, javax.swing.GroupLayout.Alignment.TRAILING, 0, 295, Short.MAX_VALUE)
-                            .addComponent(jComboBox_origen, javax.swing.GroupLayout.Alignment.TRAILING, 0, 295, Short.MAX_VALUE)
+                            .addComponent(jComboBox_destino, javax.swing.GroupLayout.Alignment.TRAILING, 0, 387, Short.MAX_VALUE)
+                            .addComponent(jComboBox_origen, javax.swing.GroupLayout.Alignment.TRAILING, 0, 387, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jYearChooser_anio, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 145, Short.MAX_VALUE)
                                 .addComponent(jMonthChooser_mes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7))
+                            .addComponent(jLabel6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jComboBox_fechasPermitidas, 0, 230, Short.MAX_VALUE)
-                            .addComponent(jComboBox_aerolinea, 0, 230, Short.MAX_VALUE)
-                            .addComponent(jLabel_costo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
-                            .addComponent(jComboBox_horario, 0, 230, Short.MAX_VALUE)))
-                    .addComponent(jButton_agregarVuelo, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE))
+                            .addComponent(jComboBox_fechasPermitidas, 0, 322, Short.MAX_VALUE)
+                            .addComponent(jComboBox_aerolinea, 0, 322, Short.MAX_VALUE)
+                            .addComponent(jLabel_costo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)))
+                    .addComponent(jButton_agregarVuelo, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addGap(111, 111, 111)
+                        .addComponent(jComboBox_horario, 0, 322, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox_origen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
@@ -209,17 +233,15 @@ public class AgregarVuelos extends javax.swing.JFrame {
                     .addComponent(jComboBox_aerolinea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel_costo)
-                        .addGap(18, 18, 18)
-                        .addComponent(jComboBox_horario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel_costo))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addComponent(jComboBox_horario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton_agregarVuelo)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
@@ -304,6 +326,18 @@ private void jComboBox_destinoActionPerformed(java.awt.event.ActionEvent evt) {/
     jComboBox_fechasPermitidas.removeAllItems();
 }//GEN-LAST:event_jComboBox_destinoActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+        (new Login()).setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jComboBox_aerolineaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_aerolineaActionPerformed
+        Double costo=DataBaseManager.getInstance().getCostoVuelo(
+        jComboBox_aerolinea.getSelectedItem().toString());
+        jLabel_costo.setText(costo.toString());
+        rellenarHorariosAerolinea();
+    }//GEN-LAST:event_jComboBox_aerolineaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -340,6 +374,7 @@ private void jComboBox_destinoActionPerformed(java.awt.event.ActionEvent evt) {/
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton_agregarVuelo;
     private javax.swing.JButton jButton_consultarFechas;
     private javax.swing.JComboBox jComboBox_aerolinea;
@@ -356,6 +391,7 @@ private void jComboBox_destinoActionPerformed(java.awt.event.ActionEvent evt) {/
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel_costo;
     private com.toedter.calendar.JMonthChooser jMonthChooser_mes;
+    private javax.swing.JToolBar jToolBar1;
     private com.toedter.calendar.JYearChooser jYearChooser_anio;
     // End of variables declaration//GEN-END:variables
 }

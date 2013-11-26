@@ -176,6 +176,7 @@ private void jButton_registrarActionPerformed(java.awt.event.ActionEvent evt) {/
                     this.dispose();
                     (new Login()).setVisible(true);
                 }else{
+                    JOptionPane.showMessageDialog(this, "Debe ingresar los datos solicitados","Error",JOptionPane.ERROR_MESSAGE);
                     System.out.println("Mpo se inserto");
                 }
                 

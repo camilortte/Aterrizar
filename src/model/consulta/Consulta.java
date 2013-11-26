@@ -75,7 +75,7 @@ public class Consulta {
                 aerolinea=item.get(2);
                 precio=item.get(3);    
                 horario=item.get(4);    
-                Date date=new Date(fecha.get(Calendar.YEAR),fecha.get(Calendar.MONTH)+1, fecha.get(Calendar.DAY_OF_MONTH));
+                String date=String.valueOf(fecha.get(Calendar.YEAR))+"-"+(String.valueOf(fecha.get(Calendar.MONTH))+1)+"-"+String.valueOf(fecha.get(Calendar.DAY_OF_MONTH));
                 resultado.add(new Vuelo(id,origen, destino,escala,date,aerolinea,Double.parseDouble(precio),horario));
                 //System.out.println("Se agrega="+aerolinea);
             }              

@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import javax.swing.JFileChooser;
 import model.consulta.Vuelo;
 
 
@@ -67,7 +68,13 @@ public class CrearPDF {
         Image logoAerolinea=obtenerLogo(aerolinea_nombre); 
         Image barraAzul = Image.getInstance("src/imagenes/barra.png");
         Image firma = Image.getInstance("src/imagenes/firma.png");
-               
+        
+        JFileChooser theFileChooser=new JFileChooser();
+        int result = theFileChooser.showOpenDialog(null); 
+        if (result == JFileChooser.APPROVE_OPTION) {
+            factura_nombre=theFileChooser.getSelectedFile().toString();
+        }
+        
         PdfWriter.getInstance(documento,new FileOutputStream(factura_nombre+".pdf"));
         this.documento.open();
         this.documento.add(logoAerolinea);

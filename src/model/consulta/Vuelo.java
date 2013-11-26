@@ -19,13 +19,13 @@ public class Vuelo {
     private String origen;
     private String destino;
     private String escala;
-    private Date fecha;
+    private String fecha;
     private String aerolinea;
     private double precio;
     private String id;
     private String horario;
     
-    public Vuelo(String id,String origen, String destino, String escala, Date fecha, String aerolinea, double precio, String horario) {
+    public Vuelo(String id,String origen, String destino, String escala, String fecha, String aerolinea, double precio, String horario) {
         this.origen = origen;
         this.destino = destino;
         this.escala = escala;
@@ -92,11 +92,11 @@ public class Vuelo {
         this.escala = escala;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 

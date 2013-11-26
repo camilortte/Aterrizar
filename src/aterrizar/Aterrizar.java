@@ -11,6 +11,7 @@ import model.consulta.Consulta;
 import model.persistencia.ConexionDB;
 import model.persistencia.DataBaseManager;
 import model.sesion.Autenticacion;
+import view.Login;
 import view.VentanaPrincipal;
 
 /**
@@ -56,10 +57,10 @@ public class Aterrizar {
         DataBaseManager.getInstance().setConexionDB(con);
         Consulta a=Consulta.getInstance();          
         Autenticacion autenticacion=Autenticacion.getInstance();
-        autenticacion.iniciarSesion("1031144412", "{DES}WkY8Mz7y4vM=");
-        autenticacion.iniciarSesion("1031144412", "{DES}WkY8Mz7y4vM=");
-        (new VentanaPrincipal()).setVisible(true);
-        //(new Login()).setVisible(true);
+        //autenticacion.iniciarSesion("1031144412", "{DES}WkY8Mz7y4vM=");
+        //autenticacion.iniciarSesion("1031144412", "{DES}WkY8Mz7y4vM=");
+        //(new VentanaPrincipal()).setVisible(true);
+        (new Login()).setVisible(true);
         //(new AgregarVuelos()).setVisible(true);
         
     }
