@@ -4,8 +4,11 @@
  */
 package model.compra;
 
+import java.sql.Date;
 import java.util.Calendar;
 import model.consulta.Vuelo;
+import model.persistencia.DataBaseManager;
+import model.sesion.Autenticacion;
 import model.usuario.Usuario;
 
 /** *
@@ -13,22 +16,32 @@ import model.usuario.Usuario;
  */
 public class Reservar {//extends Comprar {
     
-    private Usuario usuario;
-    private double precio;
-    private Calendar fecha;
-    private String tipo_pago;
-    private Vuelo vuelo;
+    protected  Usuario usuario;
+    protected double precio;
+    protected Calendar fecha;
+    protected Vuelo vuelo;
+    
 
-    public Reservar(Usuario usuario, double precio, Calendar fecha, String tipo_pago, Vuelo vuelo) {
+    public Reservar(Usuario usuario, double precio, Calendar fecha, Vuelo vuelo) {
         this.usuario = usuario;
         this.precio = precio;
         this.fecha = fecha;
-        this.tipo_pago = tipo_pago;
         this.vuelo=vuelo;
     }
 
-    public void realziarCompra(){
-        //Una insercion a la base de datos donde se realice a compra
+    public boolean realziarReserva(){
+          //Una insercion a la base de datos donde se realice a compra
+        Calendar cal=Calendar.getInstance();
+        Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
+        int month = now.get(Calendar.MONTH)+1; // Note: zero based!
+        int day = now.get(Calendar.DAY_OF_MONTH);
+        
+        boolean insetado=DataBaseManager.getInstance().insertarComprador(this.vuelo.getId()
+                , Autenticacion.getInstance().getUsuario().getCedula()
+                ,false
+                ,year,month,day);     
+        return insetado;
     }
     
     public Vuelo getVuelo() {
@@ -56,13 +69,7 @@ public class Reservar {//extends Comprar {
         this.precio = precio;
     }
 
-    public String getTipo_pago() {
-        return tipo_pago;
-    }
-
-    public void setTipo_pago(String tipo_pago) {
-        this.tipo_pago = tipo_pago;
-    }
+    
 
     public Usuario getUsuario() {
         return usuario;

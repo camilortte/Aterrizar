@@ -10,12 +10,18 @@
  */
 package view;
 
+import com.itextpdf.text.BadElementException;
+import com.itextpdf.text.DocumentException;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -23,10 +29,14 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
+import model.compra.Comprar;
+import model.compra.CrearPDF;
+import model.compra.Reservar;
 import model.consulta.Consulta;
 import model.consulta.Vuelo;
 import model.persistencia.ConexionDB;
 import model.persistencia.DataBaseManager;
+import model.sesion.Autenticacion;
 
 /**
  *
@@ -66,7 +76,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButton_comprar = new javax.swing.JButton();
+        jButton_reservar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jComboBox_tipoVuelos = new javax.swing.JComboBox();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -134,51 +150,104 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton_consultar)
                     .addComponent(jButton1))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Resultados"));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1"
+
             }
         ));
         jScrollPane1.setViewportView(jTable1);
+
+        jButton_comprar.setText("Comprar vuelo seleccionado");
+        jButton_comprar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_comprarActionPerformed(evt);
+            }
+        });
+
+        jButton_reservar.setText("Reservar vuelo");
+        jButton_reservar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_reservarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 763, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 962, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jButton_reservar, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 510, Short.MAX_VALUE)
+                        .addComponent(jButton_comprar)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton_comprar)
+                    .addComponent(jButton_reservar))
                 .addContainerGap())
         );
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Resultados"));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Mis vuelos"));
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
+
+        jComboBox_tipoVuelos.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Comprados", "Reservados" }));
+
+        jButton2.setText("Comprar");
+        jButton2.setEnabled(false);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 279, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBox_tipoVuelos, javax.swing.GroupLayout.Alignment.TRAILING, 0, 454, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
+                    .addComponent(jButton2))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 318, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jComboBox_tipoVuelos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -189,7 +258,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -199,12 +268,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -216,8 +285,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             DataBaseManager.getInstance().setConexionDB(con);
             Connection conexion=con.getConexion();
             Statement stat = conexion.createStatement();
-            ResultSet rs = stat.executeQuery("select CIUD_nombre from ciudad,origen where CIUD_id=ORIG_CIUD_id");
+            ResultSet rs = stat.executeQuery("select CIUD_nombre from ciudad,origen where CIUD_id=ORIG_CIUD_id");            
             while(rs.next()){
+                System.out.println("EPAAAAAAAAAAAAAA");
                 jComboBox_origen.addItem(rs.getString("CIUD_nombre"));
                 jComboBox_destino.addItem(rs.getString("CIUD_nombre"));
             }
@@ -230,8 +300,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
     
 private void jButton_consultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_consultarActionPerformed
-    
-    
+    actualizarTablaComprasReservas();
     if(jComboBox_origen.getItemCount()<=0 || !jCalendar_calendario.isValid()){
         JOptionPane.showMessageDialog(this, "Debe ingresar los datos");
     }else {
@@ -249,6 +318,9 @@ private void jButton_consultarActionPerformed(java.awt.event.ActionEvent evt) {/
              }else{
                  JOptionPane.showMessageDialog(this, "No se encontraron vuelos",
                          "Erorr",JOptionPane.ERROR_MESSAGE);
+                 
+                 DefaultTableModel tablemodel=new DefaultTableModel();
+                 jTable1.setModel(tablemodel);
              }
         } else {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una fecha mayor a la de hoy");
@@ -281,15 +353,229 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     
 }//GEN-LAST:event_jButton1ActionPerformed
 
+private void jButton_comprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_comprarActionPerformed
+    if(jTable1.getSelectedRow()!=-1){
+        
+        int fila=jTable1.getSelectedRows()[0];
+        
+        Calendar calend=jCalendar_calendario.getCalendar();
+        Date date=new Date();
+        date.setYear(calend.get(Calendar.YEAR));
+        
+        Vuelo vuelo_a_comprar=new Vuelo(
+                jTable1.getModel().getValueAt(fila, 0).toString(),
+                jComboBox_origen.getSelectedItem().toString(),
+                jComboBox_destino.getSelectedItem().toString(),
+                jTable1.getModel().getValueAt(fila, 1).toString(),
+                date,
+                jTable1.getModel().getValueAt(fila, 2).toString(),
+                Double.parseDouble(jTable1.getModel().getValueAt(fila, 3).toString()),
+                jTable1.getModel().getValueAt(fila, 4).toString());
+        
+        Vuelo vuelo=new Vuelo();
+        vuelo.setId(jTable1.getModel().getValueAt(fila, 0).toString());
+        vuelo.setOrigen(jComboBox_origen.getSelectedItem().toString());
+        vuelo.setDestino(jComboBox_destino.getSelectedItem().toString());
+        vuelo.setEscala( jTable1.getModel().getValueAt(fila, 1).toString());
+        vuelo.setAerolinea(jTable1.getModel().getValueAt(fila, 2).toString());
+        
+                       
+        Calendar cal=Calendar.getInstance();
+        Comprar comprar=new Comprar(Autenticacion.getInstance().getUsuario(),
+                Double.parseDouble(jTable1.getModel().getValueAt(fila, 3).toString()),
+                cal,
+                "Tipo_pago", 
+                vuelo);
+        
+        boolean insertado=comprar.realziarCompra();       
+                
+        if(insertado){
+            JOptionPane.showMessageDialog(this, "Se compro el vuelo","Bien",JOptionPane.INFORMATION_MESSAGE);
+            CrearPDF pdf=new CrearPDF();
+            String aerolinea[]=new String[2];
+            String usuario[] =  new String[3];
+            String factura[] = new String[2];
+            String vueloS[]=new String[4];
+            int N=10000;
+            int M=1000;
+            int numeroFactura = (int) Math.floor(Math.random()*(N-M+1)+M);  // Valor entre M y N, ambos incluidos.
+
+            ArrayList<Vuelo> vuelosAFacturar= new ArrayList<Vuelo>();
+            vuelosAFacturar.add(vuelo);
+
+            aerolinea[0]=jTable1.getModel().getValueAt(fila, 2).toString();
+            aerolinea[1]="";
+            usuario[0]=Autenticacion.getInstance().getUsuario().getCedula().toString();
+            usuario[1]=Autenticacion.getInstance().getUsuario().getNombre();
+            usuario[2]="";
+
+            vueloS[0] = jTable1.getModel().getValueAt(fila, 0).toString();//el id del vuelo
+            vueloS[1] = jComboBox_origen.getSelectedItem().toString();        
+            vueloS[2] = jComboBox_destino.getSelectedItem().toString();//destino.
+            vueloS[3] = jTable1.getModel().getValueAt(fila, 3).toString();//valor o costo
+
+            factura[0]="Factura De Venta";
+            factura[1]= String.valueOf(numeroFactura);
+
+            String tipoFactura = "Compra";//puede ser REserva.
+                try {
+                    //pdf.crearPDF(aerolinea,usuario,factura,vuelo,tipoFactura);
+                    //pdf.crearPDF(aerolinea,usuario,factura,vuelosAFacturar,tipoFactura);
+                    pdf.crearPDF(aerolinea,usuario,factura,vuelosAFacturar,tipoFactura);
+                } catch (DocumentException ex) {
+                    Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (MalformedURLException ex) {
+                    Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            
+            
+            
+            
+            //generar Factura :)
+        }else{
+            JOptionPane.showMessageDialog(this, "Lo sentimos ud no puede volver a comprar este vuelo","Bien",JOptionPane.ERROR_MESSAGE);
+        }
+        
+                       
+    }else{
+        JOptionPane.showMessageDialog(this, "Debe seleccionar un vuelo", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}//GEN-LAST:event_jButton_comprarActionPerformed
+
+private void actualizarTablaComprasReservas(){
+    if(jComboBox_tipoVuelos.getSelectedItem().toString().compareTo("Comprados")==0){
+        ArrayList<Vuelo> vuelos=DataBaseManager.getInstance().getVuelosComprados(true);
+        for(Vuelo vuelo: vuelos){
+            System.out.println("Esto es el vuelo= "+vuelo.getOrigen()+" "+
+                    vuelo.getDestino()+" "+vuelo.getFecha()+" "+
+                    vuelo.getHorario());
+        }
+        
+        DefaultTableModel model = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        model.setColumnIdentifiers(new String[]{"id","Origen ", "Destino", "Fecha", "Hora"});
+
+        for(Vuelo item: vuelos){
+            //for(Vuelo vuelo: item){
+               model.addRow(new String[]{
+                   item.getId(),
+                   item.getOrigen(),
+                   item.getDestino(),
+                   item.getFecha().toString(),
+                   item.getHorario(),
+               });
+            //}   
+        }    
+        jTable2.setModel(model);
+        
+        
+    }else{
+        ArrayList<Vuelo> vuelos=DataBaseManager.getInstance().getVuelosComprados(false);
+        for(Vuelo vuelo: vuelos){
+            System.out.println("Esto es el vuelo= "+vuelo.getOrigen()+" "+
+                    vuelo.getDestino()+" "+vuelo.getFecha()+" "+
+                    vuelo.getHorario());
+        }
+        
+        DefaultTableModel model = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        model.setColumnIdentifiers(new String[]{"id","Origen ", "Destino", "Fecha", "Hora"});
+
+        for(Vuelo item: vuelos){
+            //for(Vuelo vuelo: item){
+               model.addRow(new String[]{
+                   item.getId(),
+                   item.getOrigen(),
+                   item.getDestino(),
+                   item.getFecha().toString(),
+                   item.getHorario(),
+               });
+            //}   
+        }    
+        jTable2.setModel(model);
+    }
+}
+
+private void jButton_reservarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_reservarActionPerformed
+     if(jTable1.getSelectedRow()!=-1){
+        
+        int fila=jTable1.getSelectedRows()[0];
+        
+        Calendar calend=jCalendar_calendario.getCalendar();
+        Date date=new Date();
+        date.setYear(calend.get(Calendar.YEAR));
+        
+        Vuelo vuelo_a_comprar=new Vuelo(
+                jTable1.getModel().getValueAt(fila, 0).toString(),
+                jComboBox_origen.getSelectedItem().toString(),
+                jComboBox_destino.getSelectedItem().toString(),
+                jTable1.getModel().getValueAt(fila, 1).toString(),
+                date,
+                jTable1.getModel().getValueAt(fila, 2).toString(),
+                Double.parseDouble(jTable1.getModel().getValueAt(fila, 3).toString()),
+                jTable1.getModel().getValueAt(fila, 4).toString());
+        
+        Vuelo vuelo=new Vuelo();
+        vuelo.setId(jTable1.getModel().getValueAt(fila, 0).toString());
+        vuelo.setOrigen(jComboBox_origen.getSelectedItem().toString());
+        vuelo.setDestino(jComboBox_destino.getSelectedItem().toString());
+        vuelo.setEscala( jTable1.getModel().getValueAt(fila, 1).toString());
+        vuelo.setAerolinea(jTable1.getModel().getValueAt(fila, 2).toString());
+        
+                       
+        Calendar cal=Calendar.getInstance();
+        Reservar reservar=new Reservar(Autenticacion.getInstance().getUsuario(),
+                Double.parseDouble(jTable1.getModel().getValueAt(fila, 3).toString()),
+                cal,
+                vuelo);
+        
+        boolean insertado=reservar.realziarReserva();       
+                
+        if(insertado){
+            JOptionPane.showMessageDialog(this, "Su vuelo se reservarA por 24 horas","Bien",JOptionPane.INFORMATION_MESSAGE);
+            
+            //generar Factura :)
+        }else{
+            JOptionPane.showMessageDialog(this, "Lo sentimos ud no puede volver a comprar este vuelo","Bien",JOptionPane.ERROR_MESSAGE);
+        }
+        
+                       
+    }else{
+        JOptionPane.showMessageDialog(this, "Debe seleccionar un vuelo", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}//GEN-LAST:event_jButton_reservarActionPerformed
+
 //actualiza la tabla a partir de unos datos dados
 private void actualizarTabla(ArrayList<Vuelo> items){
-    DefaultTableModel model = new DefaultTableModel();
-    model.setColumnIdentifiers(new String[]{"Ecala ", "Aerolinea", "Precio"});
+    DefaultTableModel model = new DefaultTableModel(){
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
+    model.setColumnIdentifiers(new String[]{"id","Ecala ", "Aerolinea", "Precio", "Horario"});
     
     for(Vuelo item: items){
         //for(Vuelo vuelo: item){
-           model.addRow(new String[]{item.getEscala(),item.getAerolinea(),
-               String.valueOf(item.getPrecio())});
+           model.addRow(new String[]{
+               item.getId(),
+               item.getEscala(),
+               item.getAerolinea(),
+               String.valueOf(item.getPrecio()),
+               item.getHorario()
+           });
         //}   
     }    
     jTable1.setModel(model);
@@ -333,10 +619,14 @@ private void actualizarTabla(ArrayList<Vuelo> items){
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton_comprar;
     private javax.swing.JButton jButton_consultar;
+    private javax.swing.JButton jButton_reservar;
     private com.toedter.calendar.JCalendar jCalendar_calendario;
     private javax.swing.JComboBox jComboBox_destino;
     private javax.swing.JComboBox jComboBox_origen;
+    private javax.swing.JComboBox jComboBox_tipoVuelos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -344,6 +634,8 @@ private void actualizarTabla(ArrayList<Vuelo> items){
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     // End of variables declaration//GEN-END:variables
 }

@@ -15,11 +15,15 @@ public class Usuario {
     private String email;
     private String cedula;
 
-    public Usuario(String nombre, String apellido, String clave) {
+    public Usuario(String nombre, String apellido, String clave,String cedula) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.clave=clave;
+        this.cedula=cedula;
     }
+    
+       
+    
 
     public String getCedula() {
         return cedula;

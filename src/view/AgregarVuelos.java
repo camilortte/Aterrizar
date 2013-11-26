@@ -98,6 +98,8 @@ public class AgregarVuelos extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jButton_agregarVuelo = new javax.swing.JButton();
         jLabel_costo = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jComboBox_horario = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -141,6 +143,8 @@ public class AgregarVuelos extends javax.swing.JFrame {
             }
         });
 
+        jLabel7.setText("Hora");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -148,7 +152,6 @@ public class AgregarVuelos extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton_agregarVuelo, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
                     .addComponent(jButton_consultarFechas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,12 +170,15 @@ public class AgregarVuelos extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel6))
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox_fechasPermitidas, javax.swing.GroupLayout.Alignment.TRAILING, 0, 230, Short.MAX_VALUE)
-                            .addComponent(jComboBox_aerolinea, javax.swing.GroupLayout.Alignment.TRAILING, 0, 230, Short.MAX_VALUE)
-                            .addComponent(jLabel_costo, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jComboBox_fechasPermitidas, 0, 230, Short.MAX_VALUE)
+                            .addComponent(jComboBox_aerolinea, 0, 230, Short.MAX_VALUE)
+                            .addComponent(jLabel_costo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                            .addComponent(jComboBox_horario, 0, 230, Short.MAX_VALUE)))
+                    .addComponent(jButton_agregarVuelo, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -203,11 +209,17 @@ public class AgregarVuelos extends javax.swing.JFrame {
                     .addComponent(jComboBox_aerolinea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel_costo))
-                .addGap(18, 27, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel7))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel_costo)
+                        .addGap(18, 18, 18)
+                        .addComponent(jComboBox_horario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton_agregarVuelo)
-                .addContainerGap())
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pack();
@@ -215,9 +227,9 @@ public class AgregarVuelos extends javax.swing.JFrame {
 
 private void jButton_consultarFechasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_consultarFechasActionPerformed
     jComboBox_fechasPermitidas.removeAllItems();
-    vuelo=new Vuelo(this.jComboBox_origen.getSelectedItem().toString(), 
+    vuelo=new Vuelo("1",this.jComboBox_origen.getSelectedItem().toString(), 
             this.jComboBox_destino.getSelectedItem().toString(),
-            "", null, null,0.0);
+            "", null, null,0.0,"");
     
     Calendar calendar=Calendar.getInstance();
     //JOptionPane.showMessageDialog(null, String.valueOf(jMonthChooser_mes.getMonth()),"NOne",JOptionPane.ERROR_MESSAGE);
@@ -232,6 +244,7 @@ private void jButton_consultarFechasActionPerformed(java.awt.event.ActionEvent e
     Double costo=DataBaseManager.getInstance().getCostoVuelo(
                 jComboBox_aerolinea.getSelectedItem().toString());
     jLabel_costo.setText(costo.toString());
+    rellenarHorariosAerolinea();
 }//GEN-LAST:event_jButton_consultarFechasActionPerformed
 
 private void jButton_agregarVueloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_agregarVueloActionPerformed
@@ -264,10 +277,24 @@ private void jButton_agregarVueloActionPerformed(java.awt.event.ActionEvent evt)
                 jComboBox_destino.getSelectedItem().toString(),
                 jComboBox_fechasPermitidas.getSelectedItem().toString(), 
                 jComboBox_aerolinea.getSelectedItem().toString(),
-                costo.toString());  
+                costo.toString(),
+                jComboBox_horario.getSelectedItem().toString());  
                
     }
 }//GEN-LAST:event_jButton_agregarVueloActionPerformed
+
+private void rellenarHorariosAerolinea(){
+    ArrayList<String> horarios=DataBaseManager.getInstance().getHorarioAerolinea(
+            jComboBox_aerolinea.getSelectedItem().toString()
+       );
+    jComboBox_horario.removeAllItems();
+    
+    for(String horario: horarios){
+        jComboBox_horario.addItem(horario);
+    }
+    
+    
+}
 
 private void jComboBox_origenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_origenActionPerformed
     jComboBox_fechasPermitidas.removeAllItems();
@@ -318,6 +345,7 @@ private void jComboBox_destinoActionPerformed(java.awt.event.ActionEvent evt) {/
     private javax.swing.JComboBox jComboBox_aerolinea;
     private javax.swing.JComboBox jComboBox_destino;
     private javax.swing.JComboBox jComboBox_fechasPermitidas;
+    private javax.swing.JComboBox jComboBox_horario;
     private javax.swing.JComboBox jComboBox_origen;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -325,6 +353,7 @@ private void jComboBox_destinoActionPerformed(java.awt.event.ActionEvent evt) {/
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel_costo;
     private com.toedter.calendar.JMonthChooser jMonthChooser_mes;
     private com.toedter.calendar.JYearChooser jYearChooser_anio;

@@ -22,16 +22,42 @@ public class Vuelo {
     private Date fecha;
     private String aerolinea;
     private double precio;
-
-    public Vuelo(String origen, String destino, String escala, Date fecha, String aerolinea, double precio) {
+    private String id;
+    private String horario;
+    
+    public Vuelo(String id,String origen, String destino, String escala, Date fecha, String aerolinea, double precio, String horario) {
         this.origen = origen;
         this.destino = destino;
         this.escala = escala;
         this.fecha = fecha;
         this.aerolinea = aerolinea;
         this.precio=precio;
+        this.id=id;
+        this.horario=horario;
+    }
+    
+    public Vuelo(){ }
+
+    public String getHorario() {
+        return horario;
     }
 
+    public void setHorario(String horario) {
+        this.horario = horario;
+    }
+    
+    
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    
+    
     public double getPrecio() {
         return precio;
     }
@@ -179,9 +205,11 @@ public class Vuelo {
                 }                        
             }
         }
-        
-        
-        
         return fechas;
+    }
+    
+    public String toString(){
+        return this.origen+" "+this.destino+" "+this.escala+" "+this.aerolinea+" "+
+                this.fecha+" HORARIO="+this.horario;
     }
 }
