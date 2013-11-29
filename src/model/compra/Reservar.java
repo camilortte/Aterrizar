@@ -69,10 +69,17 @@ public class Reservar {//extends Comprar {
      public int getCantidadDias(String fecha,String hora) throws ParseException{        
         DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");        
         MutableDateTime dateTime = formatter.parseMutableDateTime(fecha+" "+hora);
+        DateTime dateTimeNow=new DateTime();
         
-        Interval interval = new Interval(new Instant(),dateTime);
-        int diferenciaDias=interval.toDuration().toPeriod().getHours();
-        return  diferenciaDias;
+        Interval interval = new Interval(dateTimeNow,dateTime);
+        int diferenciaHoras=interval.toDuration().toPeriod().getHours();
+        int diferenciaMinutos=interval.toDuration().toPeriod().getMinutes();
+        int diferenciaDias=interval.toDuration().toPeriod().getDays();
+         System.out.println(fecha+" "+hora);
+        System.out.println("Comparando: "+dateTimeNow.toString()+" con "+dateTime.toString());
+        System.out.println("Faltan "+diferenciaDias+"-"+diferenciaHoras+"-"
+                +diferenciaMinutos+" para este vuelo");
+        return  diferenciaHoras;
         
     }
     

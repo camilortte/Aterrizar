@@ -94,7 +94,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jTable2 = new javax.swing.JTable();
         jComboBox_tipoVuelos = new javax.swing.JComboBox();
         jButton_comprarReserva = new javax.swing.JButton();
-        jToggleButton1 = new javax.swing.JToggleButton();
         jToolBar1 = new javax.swing.JToolBar();
         jButton3 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
@@ -113,6 +112,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel_origenLabel = new javax.swing.JLabel();
         jLabel_Destino = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -173,7 +173,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_comprar)
@@ -211,8 +211,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jToggleButton1.setText("Generar factura");
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -224,8 +222,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addComponent(jScrollPane2)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jButton_comprarReserva)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jToggleButton1)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -233,11 +230,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jComboBox_tipoVuelos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton_comprarReserva)
-                    .addComponent(jToggleButton1))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton_comprarReserva)
                 .addContainerGap())
         );
 
@@ -348,6 +343,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jLabel5.setText("Ciudad de destino: ");
 
+        jButton1.setText("Consultar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -356,23 +358,30 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDateChooser_fecha2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel_Destino, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel_Destino, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(54, 54, 54)
+                                .addComponent(jLabel_origenLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addContainerGap())
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(54, 54, 54)
-                        .addComponent(jLabel_origenLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jDateChooser_fecha2, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1))))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jMapViewer1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jDateChooser_fecha2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jDateChooser_fecha2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -778,17 +787,20 @@ private void jComboBox_tipoVuelosActionPerformed(java.awt.event.ActionEvent evt)
                         
                                                 
                         if(estado==false){
-                            jLabel_origenLabel.setText(mapMarker.getName());
-                            jComboBox_origen.setSelectedItem(mapMarker.getName());
-                            jLabel_origenLabel.setForeground(Color.black);
-                            jLabel_Destino.setForeground(Color.red);
-                            coo_one=mapMarker.getCoordinate();
+                                jLabel_origenLabel.setText(mapMarker.getName());
+                                jComboBox_origen.setSelectedItem(mapMarker.getName());
+                                jLabel_origenLabel.setForeground(Color.black);
+                                jLabel_Destino.setForeground(Color.red);
+                                coo_one=mapMarker.getCoordinate();
+                            
                         }else{
-                            jLabel_Destino.setText(mapMarker.getName());
-                            jComboBox_destino.setSelectedItem(mapMarker.getName());
-                            jLabel_origenLabel.setForeground(Color.red);
-                            jLabel_Destino.setForeground(Color.black);
-                            coo_two=mapMarker.getCoordinate();
+                           
+                                jLabel_Destino.setText(mapMarker.getName());
+                                jComboBox_destino.setSelectedItem(mapMarker.getName());
+                                jLabel_origenLabel.setForeground(Color.red);
+                                jLabel_Destino.setForeground(Color.black);
+                                coo_two=mapMarker.getCoordinate();
+                            
                         }
                         estado=!estado;
                         if(coo_one!=null && coo_two!=null){
@@ -818,6 +830,49 @@ private void jComboBox_tipoVuelosActionPerformed(java.awt.event.ActionEvent evt)
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         (new AcercaDe(this, true)).setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(jLabel_origenLabel.getText().compareTo("")==0 || 
+                jLabel_Destino.getText().compareTo("")==0){
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un origen y un destino", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }else if(jLabel_origenLabel.getText().compareTo(jLabel_Destino.getText())==0){
+            JOptionPane.showMessageDialog(this, "Debe seleccionar Ciudades diferentes", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            
+        }else {
+            
+            Calendar fecha = jDateChooser_fecha2.getCalendar();
+            jCalendar_calendario.setCalendar(fecha);
+            Calendar nowDate = Calendar.getInstance();
+            
+            try{
+                if(!fecha.before(nowDate)){
+                vuelos = consulta.consultarVuelos(
+                        jLabel_origenLabel.getText(),
+                        jLabel_Destino.getText(),
+                        fecha);
+                if (vuelos != null) {
+                    actualizarTabla(vuelos);
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se encontraron vuelos",
+                            "Erorr", JOptionPane.ERROR_MESSAGE);
+
+                    DefaultTableModel tablemodel = new DefaultTableModel();
+                    jTable1.setModel(tablemodel);
+                }  
+                }else{
+                    JOptionPane.showMessageDialog(this, "Debe seleccionarua fecha mayor a la de hoy", 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                }   
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(this, "Debe ingresar una fecha.", 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+                    
+            
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void actualizarCiudadesEnJMapViewer(ArrayList<ArrayList<String>> ciudades){
         for(ArrayList<String> ciudad: ciudades){
@@ -889,6 +944,7 @@ private void jComboBox_tipoVuelosActionPerformed(java.awt.event.ActionEvent evt)
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton_comprar;
     private javax.swing.JButton jButton_comprarReserva;
@@ -924,7 +980,6 @@ private void jComboBox_tipoVuelosActionPerformed(java.awt.event.ActionEvent evt)
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }
