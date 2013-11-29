@@ -11,6 +11,11 @@ import model.consulta.Consulta;
 import model.persistencia.ConexionDB;
 import model.persistencia.DataBaseManager;
 import model.sesion.Autenticacion;
+import org.joda.time.Instant;
+import org.joda.time.Interval;
+import org.joda.time.MutableDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import view.Login;
 import view.VentanaPrincipal;
 
@@ -31,12 +36,17 @@ public class Aterrizar {
         catch(Exception e){ 
         }
         
-         Calendar now = Calendar.getInstance();
-        int year = now.get(Calendar.YEAR);
-        int month = now.get(Calendar.MONTH); // Note: zero based!
-        int day = now.get(Calendar.DAY_OF_MONTH);
+         
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+        String todo="2014-1-29 06:00:00";
+        MutableDateTime dateTime = formatter.parseMutableDateTime(todo);
+        System.out.println(dateTime.toString());
         
-        System.out.println(year+" "+month+day+" ");
+         //System.out.println("");
+        Interval interval = new Interval(new Instant(),dateTime);
+        System.out.println(interval.toDuration().toPeriod().getHours()+" "+interval.toDuration().toPeriod().getMinutes());
+        
+        System.out.println("La diferencia es"+interval);
          
         //Creamos tan solo una instancia de consulta   
         String datos[][]=new String[6][6];
@@ -57,10 +67,10 @@ public class Aterrizar {
         DataBaseManager.getInstance().setConexionDB(con);
         Consulta a=Consulta.getInstance();          
         Autenticacion autenticacion=Autenticacion.getInstance();
+        autenticacion.iniciarSesion("1013636654", "{DES}WkY8Mz7y4vM=");
         //autenticacion.iniciarSesion("1031144412", "{DES}WkY8Mz7y4vM=");
-        //autenticacion.iniciarSesion("1031144412", "{DES}WkY8Mz7y4vM=");
-        //(new VentanaPrincipal()).setVisible(true);
-        (new Login()).setVisible(true);
+        (new VentanaPrincipal()).setVisible(true);
+        //(new Login()).setVisible(true);
         //(new AgregarVuelos()).setVisible(true);
         
     }

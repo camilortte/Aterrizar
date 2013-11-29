@@ -54,6 +54,7 @@ public class RegistroForm extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Registro");
 
         jButton_volver.setText("volver");
         jButton_volver.addActionListener(new java.awt.event.ActionListener() {

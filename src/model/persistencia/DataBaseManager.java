@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -89,6 +90,43 @@ public class DataBaseManager {
         try {
             boolean consulta_bandera = false;            
             List<List<String>> consulta = new ArrayList<List<String>>();
+            
+            Statement stat = conexion.createStatement();
+            ResultSet rs = stat.executeQuery(sql);
+            ResultSetMetaData meta = rs.getMetaData();
+            System.out.println("Antes del cliclo");
+            System.out.println("EL sql="+sql);
+            while (rs.next()) {
+                System.out.println("Dentro del cilo");
+                ArrayList<String> fila = new ArrayList<String>();
+                fila.clear();
+                for (int i = 0; i < meta.getColumnCount(); i++) {
+                    consulta_bandera = true;
+                    fila.add(rs.getString(i + 1));
+                    System.out.println("Se anade="+fila.get(i));
+                }
+                consulta.add(fila);
+            }
+            if (consulta_bandera != false) {
+                return consulta;
+            } else {
+                return null;
+            }
+            /*rs.close();
+            stat.close();
+            conexion.close();*/
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+
+    }
+    
+    
+     public ArrayList<ArrayList<String>> consultarArray(String sql) {
+        try {
+            boolean consulta_bandera = false;            
+           ArrayList<ArrayList<String>>  consulta = new ArrayList<ArrayList<String>> ();
             
             Statement stat = conexion.createStatement();
             ResultSet rs = stat.executeQuery(sql);
@@ -210,25 +248,33 @@ public class DataBaseManager {
         
         try {    
             
-            String sql_reserva="select vuus_vuel_id, vuus_fecha, vuus_hora  from "
-                    + " vuelo_usuario where vuus_is_reserva='"+comprado+"'  and "+
-                                "vuus_usua_cedula='"+Autenticacion.getInstance().getUsuario().getCedula()+"'";
+            String sql_reserva="select vuus_vuel_id, vuus_fecha, vuus_hora,"
+                    + " vuel_fecha, vuel_hora, aerol_nombre, vuel_precio"
+                    + " from "
+                    + " vuelo_usuario, vuelo, aerolinea"
+                    + " where vuus_is_reserva='"+comprado+"'  and "
+                    + " vuus_usua_cedula='"+Autenticacion.getInstance().getUsuario().getCedula()+"' and"
+                    + "  vuel_id=vuus_vuel_id and "
+                    + " vuel_aerol_id=aerol_id ";
             Statement stat = conexion.createStatement();
             ResultSet rs = stat.executeQuery(sql_reserva);
             ResultSetMetaData meta = rs.getMetaData();
             ArrayList<Vuelo> vuelos=new ArrayList<Vuelo>();
             vuelos.clear();
-            System.out.println("LA CONSULTA="+sql_reserva);
             while (rs.next()) {                   
                 Vuelo vuelo=new Vuelo();
                 //(String)rs.getObject(i+1);            
                 vuelo.setId(rs.getString("vuus_vuel_id"));
-                vuelo.setFecha(rs.getString("vuus_fecha"));
-                vuelo.setHorario(rs.getString("vuus_hora"));
+                vuelo.setFecha(rs.getString("vuel_fecha"));
+                vuelo.setFecha_reserva(rs.getString("vuus_fecha"));
+                vuelo.setHora_reserva(rs.getString("vuus_hora"));
+                vuelo.setHorario(rs.getString("vuel_hora"));
                 vuelo.setOrigen(getOrigen(vuelo.getId()));
                 vuelo.setDestino(getDestino(vuelo.getId()));
+                vuelo.setAerolinea(rs.getString("aerol_nombre"));
+                vuelo.setPrecio(Double.parseDouble(rs.getString("vuel_precio")));
                 
-                Calendar now = GregorianCalendar.getInstance();                          
+                /*Calendar now = GregorianCalendar.getInstance();                          
                 Date mydate=convertirStringEnDate(vuelo.getFecha());                
                 SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
 
@@ -237,9 +283,9 @@ public class DataBaseManager {
                 Calendar gc = new GregorianCalendar();
                 gc.setTime(d);
                 gc.add(Calendar.HOUR, 2);
-                gc.set(mydate.getYear(), mydate.getMonth(), mydate.getDay());
+                gc.set(mydate.getYear(), mydate.getMonth(), mydate.getDay());*/
                 
-                
+                /*
                 Date d2 = gc.getTime();
                 if(now.before(d)){
                     //eliminar 
@@ -251,16 +297,26 @@ public class DataBaseManager {
                     
                 }else{
                     vuelos.add(vuelo);
-                }
-                
+                }*/
+                vuelos.add(vuelo);
                 
             }
+
             
             return vuelos;
         }catch(Exception e){
+            e.printStackTrace();
             return null;
         }
     }
+    
+    
+   /* public ArrayList<ArrayList<String>> obtenerCiudadesYCoordenadas(){
+        ArrayList<ArrayList<String>> ciudades=new ArrayList<ArrayList<String>>();
+        ciudades.clear();
+        
+        String sql="Select ciud_nombre, ciud_lot, ciud_lat from ciudad ";
+    }*/
     
     private boolean eliminarVueloReservado(String cedula,String vuelo_id){
         try {
@@ -307,6 +363,60 @@ public class DataBaseManager {
         fecha=fecha.substring(fecha.indexOf("-")+1, fecha.length());
         int day=Integer.parseInt(fecha);
         return new Date(year,month,day);
+    }
+    
+    
+    public ArrayList<ArrayList<String>> getDestinosCiudad(String ciudad){
+        String sql="select distinct ciud_nombre,ciud_latitud, ciud_longitud from vuelo, ruta, destino, ciudad, origen"
+                    +" where "
+                    +" vuel_ruta_id=ruta_id and " 
+                    +" ruta_dest_id=dest_id and "
+                    +" dest_ciud_id=ciud_id and "
+                    +" ruta_orig_id=orig_id and "
+                    +" orig_ciud_id='"+getIdCiudad(ciudad)+"' ";
+        
+        ArrayList<ArrayList<String>> consulta=consultarArray(sql);
+        
+       
+       return consulta;
+        
+    }
+    
+    public String[] getLotLanCiudad(String ciudad){
+        String sql="select ciud_latitud,ciud_longitud from ciudad where ciud_nombre='"+ciudad+"'";
+        try {                   
+            Statement stat = conexion.createStatement();
+            ResultSet rs = stat.executeQuery(sql);
+            ResultSetMetaData meta = rs.getMetaData();
+            String lotlan[]=new String[2];
+            while (rs.next()) {
+                //(String)rs.getObject(i+1);            
+                lotlan[0] =  rs.getString("ciud_latitud");
+                lotlan[1] =  rs.getString("ciud_longitud");
+            }
+            
+            return lotlan;
+        }catch(Exception e){
+            return null;
+        }
+    }
+    
+    public String getIdCiudad(String ciudad){
+        String sql="select ciud_id from ciudad where ciud_nombre='"+ciudad+"'";
+        try {                   
+            Statement stat = conexion.createStatement();
+            ResultSet rs = stat.executeQuery(sql);
+            ResultSetMetaData meta = rs.getMetaData();
+            String id="";
+            while (rs.next()) {
+                //(String)rs.getObject(i+1);            
+                id =  rs.getString("ciud_id");
+            }
+            
+            return id;
+        }catch(Exception e){
+            return null;
+        }
     }
     
     public String getOrigen(String id_vuelo){
@@ -357,6 +467,47 @@ public class DataBaseManager {
         }
     }
     
+    public void getCantidadDias(String fecha,String hora) throws ParseException{
+        
+        
+        
+        Calendar now = Calendar.getInstance();
+        int year_now = now.get(Calendar.YEAR);
+        int month_now = now.get(Calendar.MONTH)+1; // Note: zero based!
+        int day_now = now.get(Calendar.DAY_OF_MONTH);
+        
+             
+        
+        
+        int year=Integer.parseInt(fecha.substring(0, fecha.indexOf("-")));        
+        fecha=fecha.substring(fecha.indexOf("-")+1, fecha.length());        
+        int month=Integer.parseInt(fecha.substring(0, fecha.indexOf("-")));        
+        fecha=fecha.substring(fecha.indexOf("-")+1, fecha.length());
+        int day=Integer.parseInt(fecha);
+        
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+        java.util.Date d = df.parse(hora); 
+        d.setYear(year);
+        d.setMonth(year);
+        d.setDate(year);
+
+        java.util.Date date = new java.util.Date(); 
+        
+        
+        
+        
+        int diffInDays = (int)( (d.getTime() - date.getTime()) 
+                 / (1000 * 60 * 60 * 24) );
+        
+        System.out.println(diffInDays);
+        
+        
+        
+        
+        
+        
+    }
+    
     public boolean insertarComprador(String id_vuelo, String id_usuario,boolean compra,int year,int month,int day){
           try {
               String fecha=String.valueOf(year)+"-"+String.valueOf(month)+
@@ -364,6 +515,9 @@ public class DataBaseManager {
               Calendar cal = Calendar.getInstance();
                 cal.getTime();
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                
+              //getCantidadDias(fecha, fecha);
+                
             PreparedStatement stmt = conexion.prepareStatement("insert into vuelo_usuario"
                     + " (\"vuus_usua_cedula\", \"vuus_vuel_id\",\"vuus_is_reserva\", \"vuus_fecha\",\"vuus_hora\") "
                     + "values (?,?,?,'"+fecha+"','"+sdf.format(cal.getTime())+"')");

@@ -5,11 +5,23 @@
 package model.compra;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import model.consulta.Vuelo;
 import model.persistencia.DataBaseManager;
 import model.sesion.Autenticacion;
 import model.usuario.Usuario;
+import org.joda.time.DateTime;
+import org.joda.time.Instant;
+import org.joda.time.Interval;
+import org.joda.time.JodaTimePermission;
+import org.joda.time.MutableDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 /** *
  * @author camilortte
@@ -33,16 +45,39 @@ public class Reservar {//extends Comprar {
           //Una insercion a la base de datos donde se realice a compra
         Calendar cal=Calendar.getInstance();
         Calendar now = Calendar.getInstance();
-        int year = now.get(Calendar.YEAR);
-        int month = now.get(Calendar.MONTH)+1; // Note: zero based!
-        int day = now.get(Calendar.DAY_OF_MONTH);
+        int year_now = now.get(Calendar.YEAR);
+        int month_now = now.get(Calendar.MONTH)+1; // Note: zero based!
+        int day_now = now.get(Calendar.DAY_OF_MONTH);
         
-        boolean insetado=DataBaseManager.getInstance().insertarComprador(this.vuelo.getId()
+       
+        boolean insertado=false;
+     
+        try {
+           if(getCantidadDias(vuelo.getFecha(), vuelo.getHorario())>24){
+                 insertado=DataBaseManager.getInstance().insertarComprador(this.vuelo.getId()
                 , Autenticacion.getInstance().getUsuario().getCedula()
                 ,false
-                ,year,month,day);     
-        return insetado;
+                ,year_now,month_now,day_now); 
+           }
+        } catch (ParseException ex) {
+            Logger.getLogger(Reservar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return insertado;
     }
+    
+    
+     public int getCantidadDias(String fecha,String hora) throws ParseException{        
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");        
+        MutableDateTime dateTime = formatter.parseMutableDateTime(fecha+" "+hora);
+        
+        Interval interval = new Interval(new Instant(),dateTime);
+        int diferenciaDias=interval.toDuration().toPeriod().getHours();
+        return  diferenciaDias;
+        
+    }
+    
+    
+    
     
     public Vuelo getVuelo() {
         return vuelo;

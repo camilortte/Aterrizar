@@ -24,6 +24,8 @@ public class Vuelo {
     private double precio;
     private String id;
     private String horario;
+    private String hora_reserva;
+    private String fecha_reserva;
     
     public Vuelo(String id,String origen, String destino, String escala, String fecha, String aerolinea, double precio, String horario) {
         this.origen = origen;
@@ -35,6 +37,24 @@ public class Vuelo {
         this.id=id;
         this.horario=horario;
     }
+
+    public String getHora_reserva() {
+        return hora_reserva;
+    }
+
+    public void setHora_reserva(String hora_reserva) {
+        this.hora_reserva = hora_reserva;
+    }
+
+    public String getFecha_reserva() {
+        return fecha_reserva;
+    }
+
+    public void setFecha_reserva(String fecha_reserva) {
+        this.fecha_reserva = fecha_reserva;
+    }
+    
+    
     
     public Vuelo(){ }
 
@@ -183,7 +203,7 @@ public class Vuelo {
                 mycal.set(year, mes, i);
                 String dia=getDiaSemana(mycal);
                 if (dia.compareTo("Lunes")==0 || dia.compareTo("Miercoles")==0 || 
-                        dia.compareTo("Domingo")==0){
+                        dia.compareTo("Domingo")==0 || dia.compareTo("Viernes")==0){
                     //agregamos las fechas permitidas
                     fechas.add(year+"-"+(mes+1)+"-"+i); 
                     System.out.println("Agregamos el dia "+i+" Que es un "+dia);

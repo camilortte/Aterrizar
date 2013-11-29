@@ -1,3 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?><project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/home/camilortte/NetBeansProjects/Aterrizar/src/view/AgregarVuelos.java</file>
+            <file>file:/home/camilortte/NetBeansProjects/Aterrizar/src/model/compra/Comprar.java</file>
+            <file>file:/home/camilortte/NetBeansProjects/Aterrizar/src/model/compra/Reservar.java</file>
+            <file>file:/home/camilortte/NetBeansProjects/Aterrizar/src/model/persistencia/DataBaseManager.java</file>
+            <file>file:/home/camilortte/NetBeansProjects/Aterrizar/src/view/Login.java</file>
+            <file>file:/home/camilortte/NetBeansProjects/Aterrizar/src/aterrizar/Aterrizar.java</file>
+            <file>file:/home/camilortte/NetBeansProjects/Aterrizar/src/model/compra/CrearPDF.java</file>
+            <file>file:/home/camilortte/NetBeansProjects/Aterrizar/src/model/consulta/Vuelo.java</file>
+            <file>file:/home/camilortte/NetBeansProjects/Aterrizar/src/view/RegistroForm.java</file>
+            <file>file:/home/camilortte/NetBeansProjects/Aterrizar/src/view/Compra.java</file>
+            <file>file:/home/camilortte/NetBeansProjects/Aterrizar/src/view/VentanaPrincipal.java</file>
+        </group>
+    </open-files>
 </project-private>

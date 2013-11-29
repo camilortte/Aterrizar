@@ -7,6 +7,7 @@
 package view;
 
 import javax.swing.JOptionPane;
+import model.consulta.Vuelo;
 
 /**
  *
@@ -14,11 +15,21 @@ import javax.swing.JOptionPane;
  */
 public class Compra extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Compra
-     */
+    private int fila;
+    private Vuelo vuelo;
+    private VentanaPrincipal ventanaPrinciapl;
     public Compra() {
         initComponents();
+        setLocationRelativeTo(null);
+    }
+    
+    public Compra(int fila,Vuelo vuelo, VentanaPrincipal ventanaPrincipal) {
+        initComponents();
+        setLocationRelativeTo(null);
+        this.vuelo=vuelo;
+        this.fila=fila;
+        this.ventanaPrinciapl=ventanaPrincipal;
+        System.out.println("El vuelo que llega: "+vuelo);
     }
 
     /**
@@ -99,12 +110,18 @@ public class Compra extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(jComboBox1.getSelectedIndex()==2){
+        if(jComboBox1.getSelectedIndex()==1){
             if(jTextField_ntarjeta.getText().compareTo("")!=0){
                 JOptionPane.showMessageDialog(this, "Debe ingresar una Tarjeta ","Error",JOptionPane.ERROR_MESSAGE);
             }else{
                 JOptionPane.showMessageDialog(this, "Se generarA su recibo de pago","Ok",JOptionPane.INFORMATION_MESSAGE);
+                this.dispose();
+                this.ventanaPrinciapl.crearFactura(fila, vuelo);
             }
+        }else{
+            JOptionPane.showMessageDialog(this, "Se generarA su recibo de pago","Ok",JOptionPane.INFORMATION_MESSAGE);
+                this.dispose();
+                this.ventanaPrinciapl.crearFactura(fila, vuelo);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

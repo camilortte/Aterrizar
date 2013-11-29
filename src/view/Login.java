@@ -45,6 +45,7 @@ public class Login extends javax.swing.JFrame {
         jPasswordField_pass = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Login Aterrizar");
         setResizable(false);
 
         jLabel1.setText("INICIO DE SESION");

@@ -1,7 +1,11 @@
 package model.compra;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.consulta.Vuelo;
 import model.persistencia.DataBaseManager;
 import model.sesion.Autenticacion;
@@ -37,12 +41,12 @@ public class Comprar extends Reservar{
         
         System.out.println(year+" "+month+day+" ");
         Date date=new Date(year, month, day);
+        
         boolean insetado=DataBaseManager.getInstance().insertarComprador(this.vuelo.getId()
                 , Autenticacion.getInstance().getUsuario().getCedula()
                 ,true
                 ,year,month,day); 
-        
-        
+       
         
         return insetado;
     }

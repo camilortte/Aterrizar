@@ -12,6 +12,9 @@ package view;
 
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.DocumentException;
+import java.awt.Color;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -20,8 +23,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -37,6 +42,10 @@ import model.consulta.Vuelo;
 import model.persistencia.ConexionDB;
 import model.persistencia.DataBaseManager;
 import model.sesion.Autenticacion;
+import org.openstreetmap.gui.jmapviewer.Coordinate;
+import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
+import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
+import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
 
 /**
  *
@@ -46,6 +55,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private Consulta consulta;
     private ArrayList<Vuelo> vuelos;
+    private boolean estado;
+    private  Coordinate coo_one, coo_two;
 
     /**
      * Creates new form VentanaPrincipal
@@ -57,6 +68,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         actualizarTablaComprasReservas();
         consulta = Consulta.getInstance();
         jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        estado=false;
+        coo_one= coo_two=null;
+                
     }
 
     /**
@@ -68,14 +82,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jCalendar_calendario = new com.toedter.calendar.JCalendar();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jComboBox_destino = new javax.swing.JComboBox();
-        jComboBox_origen = new javax.swing.JComboBox();
-        jButton_consultar = new javax.swing.JButton();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -86,73 +94,38 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jTable2 = new javax.swing.JTable();
         jComboBox_tipoVuelos = new javax.swing.JComboBox();
         jButton_comprarReserva = new javax.swing.JButton();
+        jToggleButton1 = new javax.swing.JToggleButton();
         jToolBar1 = new javax.swing.JToolBar();
         jButton3 = new javax.swing.JButton();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        jCalendar_calendario = new com.toedter.calendar.JCalendar();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jComboBox_destino = new javax.swing.JComboBox();
+        jComboBox_origen = new javax.swing.JComboBox();
+        jButton_consultar = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jMapViewer1 = new org.openstreetmap.gui.jmapviewer.JMapViewer();
+        jDateChooser_fecha2 = new com.toedter.calendar.JDateChooser();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel_origenLabel = new javax.swing.JLabel();
+        jLabel_Destino = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+
+        jMenuItem1.setText("jMenuItem1");
+
+        jMenu3.setText("jMenu3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Seleccion"));
-
-        jLabel2.setText("Destino");
-
-        jLabel1.setText("Origen");
-
-        jLabel3.setText("Fecha");
-
-        jComboBox_origen.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox_origenActionPerformed(evt);
-            }
-        });
-
-        jButton_consultar.setText("Consultar");
-        jButton_consultar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_consultarActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(27, 27, 27)
-                        .addComponent(jComboBox_origen, 0, 384, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCalendar_calendario, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton_consultar)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jComboBox_destino, 0, 386, Short.MAX_VALUE))))
-                .addGap(31, 31, 31))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jComboBox_origen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jComboBox_destino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jCalendar_calendario, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton_consultar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        setTitle("Aterrizar");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Resultados"));
 
@@ -200,7 +173,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_comprar)
@@ -238,6 +211,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        jToggleButton1.setText("Generar factura");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -247,7 +222,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jComboBox_tipoVuelos, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2)
-                    .addComponent(jButton_comprarReserva))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jButton_comprarReserva)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jToggleButton1)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -255,9 +233,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jComboBox_tipoVuelos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton_comprarReserva)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton_comprarReserva)
+                    .addComponent(jToggleButton1))
                 .addContainerGap())
         );
 
@@ -274,6 +254,167 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(jButton3);
 
+        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabbedPane1MouseClicked(evt);
+            }
+        });
+        jTabbedPane1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTabbedPane1FocusGained(evt);
+            }
+        });
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Seleccion"));
+
+        jLabel2.setText("Destino");
+
+        jLabel1.setText("Origen");
+
+        jLabel3.setText("Fecha");
+
+        jComboBox_origen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox_origenActionPerformed(evt);
+            }
+        });
+
+        jButton_consultar.setText("Consultar");
+        jButton_consultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_consultarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(27, 27, 27)
+                        .addComponent(jComboBox_origen, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCalendar_calendario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButton_consultar)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jComboBox_destino, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(31, 31, 31))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jComboBox_origen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jComboBox_destino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jCalendar_calendario, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton_consultar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Seleccion1", jPanel1);
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Seleccion Mapa"));
+
+        jMapViewer1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMapViewer1MouseClicked(evt);
+            }
+        });
+
+        jDateChooser_fecha2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jDateChooser_fecha2MouseClicked(evt);
+            }
+        });
+
+        jLabel4.setText("Ciudad Origen");
+
+        jLabel5.setText("Ciudad de destino: ");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jMapViewer1, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jDateChooser_fecha2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel_Destino, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(54, 54, 54)
+                        .addComponent(jLabel_origenLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jMapViewer1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jDateChooser_fecha2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel_origenLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel_Destino, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Seleccion 2", jPanel4);
+
+        jMenu1.setText("Archivo");
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Mapa");
+
+        jMenuItem2.setText("Consultar los vuelos");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu2);
+
+        jMenu4.setText("About");
+
+        jMenuItem3.setText("Sobre el programa");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem3);
+
+        jMenuBar1.add(jMenu4);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -281,9 +422,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 502, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -294,11 +435,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTabbedPane1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -333,10 +474,10 @@ private void jButton_consultarActionPerformed(java.awt.event.ActionEvent evt) {/
         JOptionPane.showMessageDialog(this, "Debe ingresar los datos");
     } else {
 
-        if (jComboBox_origen.getSelectedItem().toString().compareTo(jComboBox_destino.getSelectedItem().toString())==0) {
-                JOptionPane.showMessageDialog(this, "Debe seleccionar ciudades diferentes");
-                DefaultTableModel tablemodel = new DefaultTableModel();
-                    jTable1.setModel(tablemodel);
+        if (jComboBox_origen.getSelectedItem().toString().compareTo(jComboBox_destino.getSelectedItem().toString()) == 0) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar ciudades diferentes");
+            DefaultTableModel tablemodel = new DefaultTableModel();
+            jTable1.setModel(tablemodel);
         } else {
             Calendar fecha = jCalendar_calendario.getCalendar();
             Calendar nowDate = Calendar.getInstance();
@@ -368,19 +509,6 @@ private void jButton_comprarActionPerformed(java.awt.event.ActionEvent evt) {//G
 
         int fila = jTable1.getSelectedRows()[0];
 
-        Calendar calend = jCalendar_calendario.getCalendar();
-        String date = String.valueOf(calend.get(Calendar.YEAR));
-
-        Vuelo vuelo_a_comprar = new Vuelo(
-                jTable1.getModel().getValueAt(fila, 0).toString(),
-                jComboBox_origen.getSelectedItem().toString(),
-                jComboBox_destino.getSelectedItem().toString(),
-                jTable1.getModel().getValueAt(fila, 1).toString(),
-                date,
-                jTable1.getModel().getValueAt(fila, 2).toString(),
-                Double.parseDouble(jTable1.getModel().getValueAt(fila, 3).toString()),
-                jTable1.getModel().getValueAt(fila, 4).toString());
-
         Vuelo vuelo = new Vuelo();
         vuelo.setId(jTable1.getModel().getValueAt(fila, 0).toString());
         vuelo.setOrigen(jComboBox_origen.getSelectedItem().toString());
@@ -400,50 +528,11 @@ private void jButton_comprarActionPerformed(java.awt.event.ActionEvent evt) {//G
 
         if (insertado) {
             JOptionPane.showMessageDialog(this, "Se procedera con la compra", "Bien", JOptionPane.INFORMATION_MESSAGE);
-            //(new Compra()).setVisible(true);
-            CrearPDF pdf = new CrearPDF();
-            String aerolinea[] = new String[2];
-            String usuario[] = new String[3];
-            String factura[] = new String[2];
-            String vueloS[] = new String[4];
-            int N = 10000;
-            int M = 1000;
-            int numeroFactura = (int) Math.floor(Math.random() * (N - M + 1) + M);  // Valor entre M y N, ambos incluidos.
-
-            ArrayList<Vuelo> vuelosAFacturar = new ArrayList<Vuelo>();
-            vuelosAFacturar.add(vuelo);
-
-            aerolinea[0] = jTable1.getModel().getValueAt(fila, 2).toString();
-            aerolinea[1] = "";
-            usuario[0] = Autenticacion.getInstance().getUsuario().getCedula().toString();
-            usuario[1] = Autenticacion.getInstance().getUsuario().getNombre();
-            usuario[2] = "";
-
-            vueloS[0] = jTable1.getModel().getValueAt(fila, 0).toString();//el id del vuelo
-            vueloS[1] = jComboBox_origen.getSelectedItem().toString();
-            vueloS[2] = jComboBox_destino.getSelectedItem().toString();//destino.
-            vueloS[3] = jTable1.getModel().getValueAt(fila, 3).toString();//valor o costo
-
-            factura[0] = "Factura De Venta";
-            factura[1] = String.valueOf(numeroFactura);
-
-            String tipoFactura = "Compra";//puede ser REserva.
-            try {
-                    
-                pdf.crearPDF(aerolinea, usuario, factura, vuelosAFacturar, tipoFactura);
-            } catch (DocumentException ex) {
-                Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MalformedURLException ex) {
-                Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            actualizarTablaComprasReservas();
-
-            //generar Factura :)
+            //Actualizar 
+            //crearFactura(fila, vuelo);
+            (new Compra(fila, vuelo, this)).setVisible(true);
+            
+            
         } else {
             JOptionPane.showMessageDialog(this, "Lo sentimos ud no puede volver a comprar este vuelo", "Bien", JOptionPane.ERROR_MESSAGE);
         }
@@ -452,6 +541,47 @@ private void jButton_comprarActionPerformed(java.awt.event.ActionEvent evt) {//G
         JOptionPane.showMessageDialog(this, "Debe seleccionar un vuelo", "Error", JOptionPane.ERROR_MESSAGE);
     }
 }//GEN-LAST:event_jButton_comprarActionPerformed
+
+    public void crearFactura(int fila, Vuelo vuelo) {
+        
+        //(new Compra()).setVisible(true);
+        CrearPDF pdf = new CrearPDF();
+        String aerolinea[] = new String[2];
+        String usuario[] = new String[3];
+        String factura[] = new String[2];
+        int N = 10000;
+        int M = 1000;
+        int numeroFactura = (int) Math.floor(Math.random() * (N - M + 1) + M);  // Valor entre M y N, ambos incluidos.
+
+        ArrayList<Vuelo> vuelosAFacturar = new ArrayList<Vuelo>();
+        vuelosAFacturar.add(vuelo);
+
+        aerolinea[0] = vuelo.getAerolinea();
+        aerolinea[1] = "";
+        usuario[0] = Autenticacion.getInstance().getUsuario().getCedula().toString();
+        usuario[1] = Autenticacion.getInstance().getUsuario().getNombre();
+        usuario[2] = "";
+
+        factura[0] = "Factura De Venta";
+        factura[1] = String.valueOf(numeroFactura);
+
+        String tipoFactura = "Compra";//puede ser REserva.
+        try {
+
+            pdf.crearPDF(aerolinea, usuario, factura, vuelosAFacturar, tipoFactura);
+            actualizarTablaComprasReservas();
+            JOptionPane.showMessageDialog(this, "Su factura se generó satisfactoriamente",
+                    "Tarea terminada", JOptionPane.INFORMATION_MESSAGE);
+        } catch (DocumentException ex) {
+            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     private void actualizarTablaComprasReservas() {
         if (jComboBox_tipoVuelos.getSelectedItem().toString().compareTo("Comprados") == 0) {
@@ -496,7 +626,7 @@ private void jButton_comprarActionPerformed(java.awt.event.ActionEvent evt) {//G
                     return false;
                 }
             };
-            model.setColumnIdentifiers(new String[]{"id", "Origen ", "Destino", "Fecha", "Hora"});
+            model.setColumnIdentifiers(new String[]{"id", "Origen ", "Destino", "Fecha-compra", "Fecha-vuelo", "Aerolinea", "Precio"});
 
             for (Vuelo item : vuelos) {
                 //for(Vuelo vuelo: item){
@@ -504,13 +634,16 @@ private void jButton_comprarActionPerformed(java.awt.event.ActionEvent evt) {//G
                     item.getId(),
                     item.getOrigen(),
                     item.getDestino(),
-                    item.getFecha().toString(),
-                    item.getHorario(),});
+                    item.getFecha_reserva().toString() + " " + item.getHora_reserva(),
+                    item.getFecha() + " " + item.getHorario(),
+                    item.getAerolinea(),
+                    String.valueOf(item.getPrecio())
+                });
                 //}   
             }
             jTable2.setModel(model);
             jButton_comprarReserva.setEnabled(true);
-            
+
         }
     }
 
@@ -520,7 +653,9 @@ private void jButton_reservarActionPerformed(java.awt.event.ActionEvent evt) {//
         int fila = jTable1.getSelectedRows()[0];
 
         Calendar calend = jCalendar_calendario.getCalendar();
-        String date = String.valueOf(calend.get(Calendar.YEAR));
+        String date = String.valueOf(calend.get(Calendar.YEAR)) + "-"
+                + String.valueOf(calend.get(Calendar.MONTH) + 1) + "-"
+                + String.valueOf(calend.get(Calendar.DAY_OF_MONTH));
         Vuelo vuelo_a_comprar = new Vuelo(
                 jTable1.getModel().getValueAt(fila, 0).toString(),
                 jComboBox_origen.getSelectedItem().toString(),
@@ -537,6 +672,9 @@ private void jButton_reservarActionPerformed(java.awt.event.ActionEvent evt) {//
         vuelo.setDestino(jComboBox_destino.getSelectedItem().toString());
         vuelo.setEscala(jTable1.getModel().getValueAt(fila, 1).toString());
         vuelo.setAerolinea(jTable1.getModel().getValueAt(fila, 2).toString());
+        vuelo.setHorario(jTable1.getModel().getValueAt(fila, 4).toString());
+
+        vuelo.setFecha(date);
 
         Calendar cal = Calendar.getInstance();
         Reservar reservar = new Reservar(Autenticacion.getInstance().getUsuario(),
@@ -550,9 +688,11 @@ private void jButton_reservarActionPerformed(java.awt.event.ActionEvent evt) {//
             JOptionPane.showMessageDialog(this, "Su vuelo se reservarA por 24 horas", "Bien", JOptionPane.INFORMATION_MESSAGE);
             actualizarTablaComprasReservas();
             this.actualizarTabla(vuelos);
-            //generar Factura :)
+
         } else {
-            JOptionPane.showMessageDialog(this, "Lo sentimos ud no puede volver a comprar este vuelo", "Bien", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No puede agregar ese vuelo "
+                    + "por que su reserva es menor a 24 horas.", "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
 
     } else {
@@ -562,6 +702,7 @@ private void jButton_reservarActionPerformed(java.awt.event.ActionEvent evt) {//
 
 private void jComboBox_tipoVuelosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_tipoVuelosActionPerformed
     actualizarTablaComprasReservas();
+//    jButton_consultarActionPerformed(evt);
 }//GEN-LAST:event_jComboBox_tipoVuelosActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -575,21 +716,118 @@ private void jComboBox_tipoVuelosActionPerformed(java.awt.event.ActionEvent evt)
     }//GEN-LAST:event_jComboBox_origenActionPerformed
 
     private void jButton_comprarReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_comprarReservaActionPerformed
-        int row=jTable2.getSelectedRow();
-        if(row<0){
-            JOptionPane.showMessageDialog(this, "Debe seleccionar una fila ");            
-        }else{
-            if(DataBaseManager.getInstance().actualizarCompra(Autenticacion.getInstance().getUsuario().getCedula(),
-                     jTable2.getModel().getValueAt(row, 0).toString())){
+        int row = jTable2.getSelectedRow();
+        if (row < 0) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una fila ");
+        } else {
+            if (DataBaseManager.getInstance().actualizarCompra(Autenticacion.getInstance().getUsuario().getCedula(),
+                    jTable2.getModel().getValueAt(row, 0).toString())) {
                 JOptionPane.showMessageDialog(this, "Se procede a comprar");
-                                
+                //FACTURA               
+
+                Vuelo vuelo = new Vuelo();
+                vuelo.setId(jTable2.getModel().getValueAt(row, 0).toString());
+                vuelo.setOrigen(jTable2.getModel().getValueAt(row, 1).toString());
+                vuelo.setDestino(jTable2.getModel().getValueAt(row, 2).toString());
+                vuelo.setAerolinea(jTable2.getModel().getValueAt(row, 5).toString());
+                vuelo.setPrecio(Double.parseDouble(jTable2.getModel().getValueAt(row, 6).toString()));
+
+                (new Compra(row, vuelo, this)).setVisible(true);
+                
                 actualizarTablaComprasReservas();
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "No puede comprar este vuelo");
             }
         }
     }//GEN-LAST:event_jButton_comprarReservaActionPerformed
 
+    private void jTabbedPane1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTabbedPane1FocusGained
+        System.out.println("GAINED");
+    }//GEN-LAST:event_jTabbedPane1FocusGained
+
+    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+        if (jTabbedPane1.getSelectedIndex() == 1) {
+            jMapViewer1.setDisplayPositionByLatLon(4.625704, -74.100466, 5);
+            String sql="select ciud_nombre, ciud_latitud, ciud_longitud from ciudad";
+            actualizarCiudadesEnJMapViewer(DataBaseManager.getInstance().consultarArray(sql));
+        }
+    }//GEN-LAST:event_jTabbedPane1MouseClicked
+
+    private void jMapViewer1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMapViewer1MouseClicked
+         if (evt.getButton() == MouseEvent.BUTTON1) {
+            Point p = evt.getPoint();
+            int X = p.x+3;
+            int Y = p.y+3;
+            List<MapMarker> ar = this.jMapViewer1.getMapMarkerList();
+            Iterator<MapMarker> i = ar.iterator();
+            while (i.hasNext()) {
+
+                MapMarker mapMarker = (MapMarker) i.next();
+
+                Point MarkerPosition = jMapViewer1.getMapPosition(mapMarker.getLat(), mapMarker.getLon());
+                if( MarkerPosition != null){
+
+                    int centerX =  MarkerPosition.x;
+                    int centerY = MarkerPosition.y;
+
+                    // calculate the radius from the touch to the center of the dot
+                    double radCircle  = Math.sqrt( (((centerX-X)*(centerX-X)) + (centerY-Y)*(centerY-Y)));
+
+                    // if the radius is smaller then 23 (radius of a ball is 5), then it must be on the dot
+                    if (radCircle < 8){
+                        
+                                                
+                        if(estado==false){
+                            jLabel_origenLabel.setText(mapMarker.getName());
+                            jComboBox_origen.setSelectedItem(mapMarker.getName());
+                            jLabel_origenLabel.setForeground(Color.black);
+                            jLabel_Destino.setForeground(Color.red);
+                            coo_one=mapMarker.getCoordinate();
+                        }else{
+                            jLabel_Destino.setText(mapMarker.getName());
+                            jComboBox_destino.setSelectedItem(mapMarker.getName());
+                            jLabel_origenLabel.setForeground(Color.red);
+                            jLabel_Destino.setForeground(Color.black);
+                            coo_two=mapMarker.getCoordinate();
+                        }
+                        estado=!estado;
+                        if(coo_one!=null && coo_two!=null){
+                            this.jMapViewer1.removeAllMapPolygons();
+                            List<Coordinate> route = new ArrayList<Coordinate>
+                                    (Arrays.asList(coo_one, coo_two, coo_two));
+                            this.jMapViewer1.addMapPolygon(new MapPolygonImpl(route));
+                        }
+                        
+
+                    }
+                }
+                
+            }
+        }
+    }//GEN-LAST:event_jMapViewer1MouseClicked
+
+    private void jDateChooser_fecha2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jDateChooser_fecha2MouseClicked
+        Date date= jDateChooser_fecha2.getDate();
+        jCalendar_calendario.setDate(date);
+    }//GEN-LAST:event_jDateChooser_fecha2MouseClicked
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+            (new ConsultaVuelosFrame()).setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        (new AcercaDe(this, true)).setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void actualizarCiudadesEnJMapViewer(ArrayList<ArrayList<String>> ciudades){
+        for(ArrayList<String> ciudad: ciudades){
+            MapMarkerDot mp=new MapMarkerDot(Double.parseDouble(ciudad.get(1)),
+                    Double.parseDouble(ciudad.get(2)));
+            mp.setName(ciudad.get(0));
+            jMapViewer1.addMapMarker(mp);
+        }
+    }
+    
 //actualiza la tabla a partir de unos datos dados
     private void actualizarTabla(ArrayList<Vuelo> items) {
         DefaultTableModel model = new DefaultTableModel() {
@@ -660,16 +898,33 @@ private void jComboBox_tipoVuelosActionPerformed(java.awt.event.ActionEvent evt)
     private javax.swing.JComboBox jComboBox_destino;
     private javax.swing.JComboBox jComboBox_origen;
     private javax.swing.JComboBox jComboBox_tipoVuelos;
+    private com.toedter.calendar.JDateChooser jDateChooser_fecha2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel_Destino;
+    private javax.swing.JLabel jLabel_origenLabel;
+    private org.openstreetmap.gui.jmapviewer.JMapViewer jMapViewer1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }
