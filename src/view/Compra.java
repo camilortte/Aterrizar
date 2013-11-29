@@ -111,25 +111,25 @@ public class Compra extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if(jComboBox1.getSelectedIndex()==1){
-            if(jTextField_ntarjeta.getText().compareTo("")!=0){
+            if(jTextField_ntarjeta.getText().compareTo("")==0){
                 JOptionPane.showMessageDialog(this, "Debe ingresar una Tarjeta ","Error",JOptionPane.ERROR_MESSAGE);
             }else{
                 JOptionPane.showMessageDialog(this, "Se generarA su recibo de pago","Ok",JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
-                this.ventanaPrinciapl.crearFactura(fila, vuelo);
+                this.ventanaPrinciapl.crearFactura(fila, vuelo, "Tarjeta Credito-Debito");
             }
         }else{
             JOptionPane.showMessageDialog(this, "Se generarA su recibo de pago","Ok",JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
-                this.ventanaPrinciapl.crearFactura(fila, vuelo);
+                this.ventanaPrinciapl.crearFactura(fila, vuelo,"Efectivo");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
             if(jComboBox1.getSelectedIndex()==1){
-                jTextField_ntarjeta.setEnabled(true);
+                jTextField_ntarjeta.setEnabled(true);                
             }else{
-                jTextField_ntarjeta.setEnabled(true);
+                jTextField_ntarjeta.setEnabled(false);
             }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 

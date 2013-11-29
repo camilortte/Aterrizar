@@ -551,7 +551,7 @@ private void jButton_comprarActionPerformed(java.awt.event.ActionEvent evt) {//G
     }
 }//GEN-LAST:event_jButton_comprarActionPerformed
 
-    public void crearFactura(int fila, Vuelo vuelo) {
+    public void crearFactura(int fila, Vuelo vuelo,String tipoCompra) {
         
         //(new Compra()).setVisible(true);
         CrearPDF pdf = new CrearPDF();
@@ -577,7 +577,7 @@ private void jButton_comprarActionPerformed(java.awt.event.ActionEvent evt) {//G
         String tipoFactura = "Compra";//puede ser REserva.
         try {
 
-            pdf.crearPDF(aerolinea, usuario, factura, vuelosAFacturar, tipoFactura);
+            pdf.crearPDF(aerolinea, usuario, factura, vuelosAFacturar, tipoFactura, tipoCompra);
             actualizarTablaComprasReservas();
             JOptionPane.showMessageDialog(this, "Su factura se generó satisfactoriamente",
                     "Tarea terminada", JOptionPane.INFORMATION_MESSAGE);
